@@ -13,7 +13,9 @@ index = {"Config": "00_core.ipynb",
          "plot_winner": "00_core.ipynb",
          "plot_loser": "00_core.ipynb",
          "list_team_players": "00_core.ipynb",
-         "plot_player_full": "00_core.ipynb"}
+         "plot_player_full": "00_core.ipynb",
+         "least_effective_shot_team": "00_core.ipynb",
+         "least_effective_shot_league": "00_core.ipynb"}
 
 modules = ["core.py"]
 
