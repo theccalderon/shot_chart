@@ -16,6 +16,9 @@ from fastprogress.fastprogress import master_bar, progress_bar
 import matplotlib.pyplot as plt
 from typing import Sequence, Tuple, TypeVar, Union
 from typing import Any, AnyStr, Callable, Collection, Dict, Hashable, Iterator, List, Mapping, NewType, Optional
+import boto3
+import hashlib
+import shutil
 
 # Cell
 class Config:
@@ -94,7 +97,7 @@ class URLs():
 
     def path(url, c_key='archive'):
         fname = url.split('/')[-1]
-        local_path = URLs.LOCAL_PATH/('models' if c_key=='models' else 'data')/fname
+        local_path = URLs.LOCAL_PATH/('models' if c_key=='models' else 'archive')/fname
         if local_path.exists(): return local_path
         return Config()[c_key]/fname
 
@@ -149,7 +152,20 @@ def file_extract(fname, dest='.'):
     else: raise Exception(f'Unrecognized archive: {fname}')
 
 # Cell
-def untar_data(url, fname=None, dest=None, c_key='data', force_download=False, extract_func=file_extract):
+def _get_check(url):
+    s3 = boto3.client('s3')
+    s3_resp = s3.head_object(Bucket=URLs.S3.split(".")[0].split("//")[1],Key=url.split("/")[-1])
+    ETag = s3_resp['ETag'].strip('"')
+    # Open,close, read file and calculate MD5 on its contents
+    with open(Path(URLs.path(url)),"rb") as file_to_check:
+        # read contents of the file
+        data = file_to_check.read()
+        # pipe contents of the file through
+        md5_returned = hashlib.md5(data).hexdigest()
+    return ETag != md5_returned
+
+# Cell
+def untar_data(url, fname=None, dest=None, c_key='archive', force_download=False, extract_func=file_extract):
     "Download `url` to `fname` if `dest` doesn't exist, and un-tgz to folder `dest`."
     default_dest = URLs.path(url, c_key=c_key).with_suffix('.csv')
     dest = default_dest if dest is None else Path(dest)/default_dest.name
@@ -157,6 +173,9 @@ def untar_data(url, fname=None, dest=None, c_key='data', force_download=False, e
 #     if fname.exists() and _get_check(url) and _check_file(fname) != _get_check(url):
 #         print("A new version of this dataset is available, downloading...")
 #         force_download = True
+    if fname.exists() and _get_check(url):
+        print("A new version of this dataset is available, downloading...")
+        force_download = True
     if force_download:
         if fname.exists(): os.remove(fname)
         if dest.exists(): shutil.rmtree(dest)
@@ -190,6 +209,34 @@ def _calculate_fg_pct(fgm,fga):
 # Cell
 def _calculate_efg_pct(fgm,three_pm,fga):
     return ((fgm + 0.5 * three_pm)/fga)*100
+
+# Cell
+def _calculate_avg_fga(df):
+    #len(df) -> all shots taken for the season
+    #len(df['shots_by']).drop_duplicates() -> number of different players who have taken shots for the season
+    # len(df)/len(df['shots_by']).drop_duplicates() -> AVG_FGA
+    number_of_games = len(df['game_id'].drop_duplicates())
+    players_more_than_one_shot = []
+    for x in df['shots_by'].drop_duplicates().to_list():
+        if len(df.loc[df['shots_by'] == x]) >= number_of_games:
+            players_more_than_one_shot.append(x)
+    return len(df.loc[df["shots_by"].isin(players_more_than_one_shot)])/len(players_more_than_one_shot)
+
+
+# Cell
+def _calculate_avg_efg(df):
+    #len(df) -> all shots taken for the season
+    number_of_games = len(df['game_id'].drop_duplicates())
+    players_more_than_one_shot = []
+    for x in df['shots_by'].drop_duplicates().to_list():
+        if len(df.loc[df['shots_by'] == x]) >= number_of_games:
+            players_more_than_one_shot.append(x)
+    reduced_df = df.loc[df["shots_by"].isin(players_more_than_one_shot)]
+    fgm = len(reduced_df.loc[reduced_df["outcome"]=="made"])
+    three_pm = len(reduced_df.loc[(reduced_df["outcome"]=="made") & (reduced_df["attempt"] == "3-pointer")])
+    fga = len(reduced_df)
+    return ((fgm + 0.5 * three_pm)/fga)*100
+
 
 # Cell
 Y_MODIFIER = 466
@@ -356,7 +403,7 @@ def list_team_players(df, team):
     return df.loc[df['team']==team].groupby('shots_by').shots_by.count().reset_index(name='count').sort_values(['count'], ascending=False)
 
 # Cell
-def plot_player(df:pd.DataFrame, player:str, date_range:Union[str,tuple,int]="all",made:bool=True,missed:bool=True,attempt:str="all",distance:Union[str,List[str]]="all"):
+def plot_player(df:pd.DataFrame, player:str, date_range:Union[str,tuple,int]="all",made:bool=True,missed:bool=True,attempt:str="all",distance:Union[str,list]="all"):
     "Plots shot chart of `player` for the full season"
     plt.figure(figsize=(2*Config().fig_height/Config().my_dpi, Config().fig_width/Config().my_dpi), dpi=Config().my_dpi)
     plt.subplot(1, 2, 1)
@@ -417,8 +464,8 @@ def plot_player(df:pd.DataFrame, player:str, date_range:Union[str,tuple,int]="al
             plt.hist(distances,bins = len(distance))
             ax.text(len(distance) + 13, 1, "Metrics:\n FG%: "+str(fg_pct)+"\n eFG%: "+str(efg_pct), bbox=dict(facecolor='red', alpha=0.5))
         else:
-            plt.hist(distances,bins = 30)
-            ax.text(30 + 5, 1, "Metrics:\n FG%: "+str(fg_pct)+"\n eFG%: "+str(efg_pct), bbox=dict(facecolor='red', alpha=0.5))
+            plt.hist(distances,bins = max(distances))
+            ax.text(30 + 12, 1, "Metrics:\n FG%: "+str(fg_pct)+"\n eFG%: "+str(efg_pct), bbox=dict(facecolor='red', alpha=0.5))
     plt.show()
 
 # Cell
@@ -566,7 +613,6 @@ def least_effective_shot_player(df,player:str,metric:str="efg", exclude:Union[st
     plt.title(player+ " shot chart")
     img = plt.imread("http://d2p3bygnnzw9w3.cloudfront.net/req/1/images/bbr/nbahalfcourt.png")
     implot = plt.imshow(img, extent=[0,500,0,472])
-    plt.text(600, 100, "Distance:\n "+ final_distance+"\n\nMetrics:\n FG%: "+str(round(max_fg,2))+"\n eFG%: "+str(round(max_efg,2)), bbox=dict(facecolor='red', alpha=0.5))
     mades_df = player_df.loc[player_df['outcome']=='made']
     ys = mades_df['x'].apply(lambda x: x.split("px")[0]).to_list()
     ys = [Y_MODIFIER - int(x) for x in ys]
@@ -585,7 +631,7 @@ def least_effective_shot_player(df,player:str,metric:str="efg", exclude:Union[st
     all_shots = df.loc[(df["shots_by"]==player)]
     distances = all_shots['distance'].apply(lambda x: int(x.split('ft')[0])).to_list()
     plt.hist(distances,bins = 30)
-    ax.text(35 + 5, 1, "Metrics:\n FG%: "+str(fg_pct)+"\n eFG%: "+str(efg_pct), bbox=dict(facecolor='red', alpha=0.5))
+    ax.text(35 + 5, 1, "Distance:\n "+ final_distance+"\nMetrics:\n FG%: "+str(fg_pct)+"\n eFG%: "+str(efg_pct), bbox=dict(facecolor='red', alpha=0.5))
     plt.show()
 
 # Cell
@@ -616,7 +662,7 @@ def most_effective_shot_player(df,player:str,metric:str="efg", exclude:Union[str
     plt.title(player+ " shot chart")
     img = plt.imread("http://d2p3bygnnzw9w3.cloudfront.net/req/1/images/bbr/nbahalfcourt.png")
     implot = plt.imshow(img, extent=[0,500,0,472])
-    plt.text(600, 100, "Distance:\n "+ final_distance+"\n\nMetrics:\n FG%: "+str(round(max_fg,2))+"\n eFG%: "+str(round(max_efg,2)), bbox=dict(facecolor='red', alpha=0.5))
+#     plt.text(600, 100, "Distance:\n "+ final_distance+"\n\nMetrics:\n FG%: "+str(round(max_fg,2))+"\n eFG%: "+str(round(max_efg,2)), bbox=dict(facecolor='red', alpha=0.5))
     mades_df = player_df.loc[player_df['outcome']=='made']
     ys = mades_df['x'].apply(lambda x: x.split("px")[0]).to_list()
     ys = [Y_MODIFIER - int(x) for x in ys]
@@ -634,6 +680,12 @@ def most_effective_shot_player(df,player:str,metric:str="efg", exclude:Union[str
     #I would still like to see the whole overall volume
     all_shots = df.loc[(df["shots_by"]==player)]
     distances = all_shots['distance'].apply(lambda x: int(x.split('ft')[0])).to_list()
-    plt.hist(distances,bins = 30)
-    ax.text(35 + 5, 1, "Metrics:\n FG%: "+str(fg_pct)+"\n eFG%: "+str(efg_pct), bbox=dict(facecolor='red', alpha=0.5))
+#     plt.hist(distances,max(distances))
+    if type(exclude) == list:
+        plt.hist(distances,bins = 31 - len(exclude))
+        ax.text((31 - len(exclude)) + 15, 1, "Most effective shot: "+str(final_distance)+"\nMetrics:\n FG%: "+str(fg_pct)+"\n eFG%: "+str(efg_pct), bbox=dict(facecolor='red', alpha=0.5))
+    else:
+        plt.hist(distances,bins = max(distances))
+        ax.text(30 + 12, 1, "Most effective shot: "+str(final_distance)+"Metrics:\n FG%: "+str(round(fg_pct,2))+"\n eFG%: "+str(efg_pct), bbox=dict(facecolor='red', alpha=0.5))
+#     ax.text(35 + 5, 1, "Distance:\n "+ final_distance+"\n\nMetrics:\n FG%: "+str(max_fg)+"\n eFG%: "+str(max_efg), bbox=dict(facecolor='red', alpha=0.5))
     plt.show()
