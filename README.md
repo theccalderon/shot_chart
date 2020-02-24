@@ -287,3 +287,13 @@ plot_player(shots_df, "Damian Lillard",date_range=1,missed=False, attempt="3-poi
 
 ![png](docs/images/output_21_0.png)
 
+
+### Plotting least/most effective shot for team/player
+
+```python
+least_effective_shot_team(shots_df, "Portland")
+```
+
+
+![png](docs/images/output_23_0.png)
+
