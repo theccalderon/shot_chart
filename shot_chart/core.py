@@ -95,7 +95,7 @@ class URLs():
 
     def path(url, c_key='archive'):
         fname = url.split('/')[-1]
-        local_path = URLs.LOCAL_PATH/('models' if c_key=='models' else 'archive')/fname
+        local_path = URLs.LOCAL_PATH/('data' if c_key=='data' else 'archive')/fname
         if local_path.exists(): return local_path
         return Config()[c_key]/fname
 
@@ -163,8 +163,9 @@ def _get_check(url):
     return ETag != md5_returned
 
 # Cell
-def untar_data(url, fname=None, dest=None, c_key='archive', force_download=False, extract_func=file_extract):
+def untar_data(url, fname=None, dest=None, c_key='data', force_download=False, extract_func=file_extract):
     "Download `url` to `fname` if `dest` doesn't exist, and un-tgz to folder `dest`."
+#     default_dest = URLs.path(url, c_key=c_key).with_suffix('.csv')
     default_dest = URLs.path(url, c_key=c_key).with_suffix('.csv')
     dest = default_dest if dest is None else Path(dest)/default_dest.name
     fname = Path(fname or URLs.path(url))
@@ -176,7 +177,7 @@ def untar_data(url, fname=None, dest=None, c_key='archive', force_download=False
         force_download = True
     if force_download:
         if fname.exists(): os.remove(fname)
-        if dest.exists(): shutil.rmtree(dest)
+        if dest.exists(): os.remove(dest)
     if not dest.exists():
         fname = download_data(url, fname=fname, c_key=c_key)
 #         if _get_check(url) and _check_file(fname) != _get_check(url):
