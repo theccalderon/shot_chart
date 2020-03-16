@@ -1,6 +1,6 @@
 {
   "shot_chart": {
     "Overview": "/",
-    "module name here": "/core"
+    "shot_chart": "/core"
   }
 }
