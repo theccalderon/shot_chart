@@ -10,7 +10,7 @@ entries:
       title: Overview
       url: /
     - output: web,pdf
-      title: module name here
+      title: shot_chart
       url: /core
     output: web
     title: shot_chart

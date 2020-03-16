@@ -13,56 +13,56 @@ This file will become your README and also the index of your documentation.
 We first create a pandas dataframe from the source data.
 
 ```python
-shots_df = make_df(untar_data(URLs.SHOTS_2019))
+shots_2019 = make_df(untar_data(URLs.SHOTS_2019))
 ```
 
-### Listing teams for the season
+## Listing teams for the season
 
 ```python
-list_teams(shots_df)
+list_teams(shots_2019)
 ```
 
 
 
 
-    0        New Orleans
-    2            Toronto
-    203        LA Lakers
-    204      LA Clippers
-    369          Atlanta
-    370            Miami
-    524           Denver
-    689      San Antonio
-    1030         Memphis
-    1210      Sacramento
-    1212        Portland
-    1382         Detroit
-    1383        Brooklyn
-    1735      Washington
-    1736       Minnesota
-    1924         Orlando
-    2283            Utah
-    2284        Oklahoma
-    2666         Phoenix
-    2849        New York
-    3026          Boston
-    3027    Philadelphia
-    3200       Cleveland
-    4052         Chicago
-    4053         Indiana
-    4222          Dallas
-    4413       Charlotte
-    5972       Milwaukee
-    6357         Houston
-    6359    Golden State
+    0            Atlanta
+    1            Orlando
+    183       Sacramento
+    184             Utah
+    341         Oklahoma
+    343     Golden State
+    511           Denver
+    512      New Orleans
+    675        Milwaukee
+    1016        Portland
+    1224         Phoenix
+    1226        Brooklyn
+    1412     San Antonio
+    1413         Memphis
+    1934         Toronto
+    2119    Philadelphia
+    2296       Minnesota
+    2477       LA Lakers
+    2655         Houston
+    2656     LA Clippers
+    2843       Charlotte
+    3017          Boston
+    3018      Washington
+    3383         Detroit
+    3918           Miami
+    5020       Cleveland
+    5535         Indiana
+    6407        New York
+    6410         Chicago
+    8473          Dallas
     Name: team, dtype: object
 
 
 
-### Listing players who took at least 1 shot for a particular team
+## Listing players who took at least 1 shot for a particular team
 
 ```python
-list_team_players(shots_df, 'San Antonio')
+list_team_players(shots_2019, 'Portland')
 ```
 
 
@@ -93,83 +93,93 @@ list_team_players(shots_df, 'San Antonio')
   <tbody>
     <tr>
       <th>2</th>
-      <td>DeMar DeRozan</td>
-      <td>834</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>LaMarcus Aldridge</td>
-      <td>723</td>
-    </tr>
-    <tr>
-      <th>0</th>
-      <td>Bryn Forbes</td>
-      <td>499</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>Patty Mills</td>
-      <td>482</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Dejounte Murray</td>
-      <td>423</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>Rudy Gay</td>
-      <td>397</td>
+      <td>CJ McCollum</td>
+      <td>1212</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>Derrick White</td>
-      <td>383</td>
+      <td>Damian Lillard</td>
+      <td>1158</td>
     </tr>
     <tr>
-      <th>15</th>
-      <td>Trey Lyles</td>
-      <td>250</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>Marco Belinelli</td>
-      <td>238</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>Lonnie Walker</td>
-      <td>228</td>
+      <th>4</th>
+      <td>Carmelo Anthony</td>
+      <td>678</td>
     </tr>
     <tr>
       <th>7</th>
-      <td>Jakob Pöltl</td>
-      <td>205</td>
+      <td>Hassan Whiteside</td>
+      <td>676</td>
     </tr>
     <tr>
-      <th>1</th>
-      <td>Chimezie Metu</td>
-      <td>29</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>DeMarre Carroll</td>
-      <td>29</td>
+      <th>0</th>
+      <td>Anfernee Simons</td>
+      <td>522</td>
     </tr>
     <tr>
       <th>6</th>
-      <td>Drew Eubanks</td>
-      <td>15</td>
+      <td>Gary Trent</td>
+      <td>349</td>
     </tr>
     <tr>
-      <th>8</th>
-      <td>Keldon Johnson</td>
-      <td>5</td>
+      <th>9</th>
+      <td>Kent Bazemore</td>
+      <td>322</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Mario Hezonja</td>
+      <td>188</td>
     </tr>
     <tr>
       <th>13</th>
-      <td>Quinndary Weatherspoon</td>
-      <td>1</td>
+      <td>Rodney Hood</td>
+      <td>172</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Trevor Ariza</td>
+      <td>159</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Nassir Little</td>
+      <td>151</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Skal Labissière</td>
+      <td>147</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Anthony Tolliver</td>
+      <td>117</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Caleb Swanigan</td>
+      <td>43</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Jaylen Hoard</td>
+      <td>32</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Wenyen Gabriel</td>
+      <td>29</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Zach Collins</td>
+      <td>19</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Moses Brown</td>
+      <td>10</td>
     </tr>
   </tbody>
 </table>
@@ -180,120 +190,246 @@ list_team_players(shots_df, 'San Antonio')
 ### List the games for a given day
 
 ```python
-list_game_ids(shots_df, 2020, 1, 20)
+list_game_ids(shots_2019, 2020, 1, 20)
 ```
 
 
 
 
-    110678    202001200ATL
-    111205    202001200WAS
-    111375    202001200UTA
-    111554    202001200POR
-    111769    202001200MIN
-    111950    202001200MIL
-    112120    202001200PHO
-    112287    202001200MIA
-    112476    202001200HOU
-    112835    202001200MEM
-    113200    202001200CLE
-    113379    202001200BRK
-    113714    202001200CHO
-    113882    202001200BOS
-    Name: game_id, dtype: object
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>game_id</th>
+      <th>winner</th>
+      <th>loser</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>112968</th>
+      <td>202001200ATL</td>
+      <td>Toronto</td>
+      <td>Atlanta</td>
+    </tr>
+    <tr>
+      <th>113331</th>
+      <td>202001200WAS</td>
+      <td>Washington</td>
+      <td>Detroit</td>
+    </tr>
+    <tr>
+      <th>113681</th>
+      <td>202001200POR</td>
+      <td>Portland</td>
+      <td>Golden State</td>
+    </tr>
+    <tr>
+      <th>113896</th>
+      <td>202001200UTA</td>
+      <td>Utah</td>
+      <td>Indiana</td>
+    </tr>
+    <tr>
+      <th>114075</th>
+      <td>202001200MEM</td>
+      <td>New Orleans</td>
+      <td>Memphis</td>
+    </tr>
+    <tr>
+      <th>114266</th>
+      <td>202001200MIA</td>
+      <td>Miami</td>
+      <td>Sacramento</td>
+    </tr>
+    <tr>
+      <th>114455</th>
+      <td>202001200MIL</td>
+      <td>Milwaukee</td>
+      <td>Chicago</td>
+    </tr>
+    <tr>
+      <th>114625</th>
+      <td>202001200HOU</td>
+      <td>Oklahoma City</td>
+      <td>Houston</td>
+    </tr>
+    <tr>
+      <th>114813</th>
+      <td>202001200MIN</td>
+      <td>Denver</td>
+      <td>Minnesota</td>
+    </tr>
+    <tr>
+      <th>115164</th>
+      <td>202001200PHO</td>
+      <td>San Antonio</td>
+      <td>Phoenix</td>
+    </tr>
+    <tr>
+      <th>124108</th>
+      <td>202001200CLE</td>
+      <td>New York</td>
+      <td>Cleveland</td>
+    </tr>
+    <tr>
+      <th>124287</th>
+      <td>202001200CHO</td>
+      <td>Orlando</td>
+      <td>Charlotte</td>
+    </tr>
+    <tr>
+      <th>124455</th>
+      <td>202001200BOS</td>
+      <td>Boston</td>
+      <td>LA Lakers</td>
+    </tr>
+    <tr>
+      <th>124817</th>
+      <td>202001200BRK</td>
+      <td>Philadelphia</td>
+      <td>Brooklyn</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 
 
 Note how the game_id format is YYYYMMDD0WIN
 
-### Plotting team shot distribution
+## Plotting team shot distribution
 
 ```python
-plot_team(shots_df, "Houston")
+houston = TeamShots(shots_2019,"Houston")
+```
+
+```python
+houston.plot_shots()
 ```
 
 
-![png](docs/images/output_14_0.png)
+![png](docs/images/output_15_0.png)
 
 
 ```python
-plot_team(shots_df, "Houston", date_range=((2020,1,1), (2020,1,10)))
+houston.plot_shots(date_range=((2020,1,1), (2020,1,10)))
 ```
 
 
     ---------------------------------------------------------------------------
 
-    ZeroDivisionError                         Traceback (most recent call last)
+    IndexError                                Traceback (most recent call last)
 
-    <ipython-input-18-32ae8d8fc450> in <module>
-    ----> 1 plot_team(shots_df, "Houston", date_range=((2020,1,1), (2020,1,10)))
+    <ipython-input-16-820bf78dc080> in <module>
+    ----> 1 houston.plot_shots(date_range=((2020,1,1), (2020,1,10)))
     
 
-    ~/DEV/shot_chart/shot_chart/core.py in plot_team(df, team, date_range, made, missed, attempt, distance)
-        295     distances = shots_df['distance'].apply(lambda x: int(x.split('ft')[0])).to_list()
-        296     plt.hist(distances,bins = 30)
-    --> 297     fg_pct = round(_calculate_fg_pct(len(mades_df),len(shots_df)),2)
-        298     efg_pct = round(_calculate_efg_pct(len(mades_df),len(mades_df[mades_df["attempt"]=="3-pointer"]),len(shots_df)),2)
-        299     ax.text(45, 1, "Metrics:\n FG%: "+str(fg_pct)+"\n eFG%: "+str(efg_pct), bbox=dict(facecolor='red', alpha=0.5))
+    ~/DEV/shot_chart/shot_chart/core.py in plot_shots(self, **kwargs)
+        296         "Plots the shot chart for a given `date_range` including `made`, `missed` and `attempt` shots within `distances`"
+        297         #use kwargs
+    --> 298         self.__plot_shot_chart(self.dataframe, **kwargs)
+        299         self.__plot_scatter_volume(self.dataframe, self.__calculate_metric(self.dataframe, "fg"), self.__calculate_metric(self.dataframe, "efg"))
+        300         plt.show()
 
 
-    ~/DEV/shot_chart/shot_chart/core.py in _calculate_fg_pct(fgm, fga)
-        205 # Cell
-        206 def _calculate_fg_pct(fgm,fga):
-    --> 207     return fgm/fga*100
-        208 
-        209 # Cell
+    ~/DEV/shot_chart/shot_chart/core.py in __plot_shot_chart(self, dataframe, date_range, made, missed, attempt, distances)
+        248         else:
+        249             #custom date range in the form of ((from_y,from_m,from_d),(to_y,to_m,to_d))
+    --> 250             from_index = dataframe[(dataframe["year"]==date_range[0][0]) & (dataframe["month"]==date_range[0][1]) & (dataframe["day"]==date_range[0][2])].index[0]
+        251             to_index = dataframe[(dataframe["year"]==date_range[1][0]) & (dataframe["month"]==date_range[1][1]) & (dataframe["day"]==date_range[1][2])].index[0]
+        252             shots_df = dataframe.iloc[[from_index,to_index]]
 
 
-    ZeroDivisionError: division by zero
+    ~/opt/anaconda3/envs/shot_chart/lib/python3.7/site-packages/pandas/core/indexes/base.py in __getitem__(self, key)
+       4278         if is_scalar(key):
+       4279             key = com.cast_scalar_indexer(key)
+    -> 4280             return getitem(key)
+       4281 
+       4282         if isinstance(key, slice):
+
+
+    IndexError: index 0 is out of bounds for axis 0 with size 0
 
 
 
-![png](docs/images/output_15_1.png)
+![png](docs/images/output_16_1.png)
 
 
 Please check the extra options when using the plotting functions
 
 ```python
-plot_winner(shots_df, "202001200BOS")
+portland_20191125 = TeamShots(shots_2019,"Portland","201911250CHI")
+```
+
+```python
+portland_20191125.plot_shots()
 ```
 
 
-![png](docs/images/output_17_0.png)
+![png](docs/images/output_19_0.png)
+
+
+## Plotting player shot distribution
+
+```python
+player_shots = PlayerShots(shots_2019,"Anthony Davis")
+```
+
+```python
+player_shots.plot_shots()
+```
+
+
+![png](docs/images/output_22_0.png)
 
 
 ```python
-plot_loser(shots_df, "202001200BOS")
+dlo = PlayerShots(shots_2019,"D'Angelo Russell")
 ```
-
-
-![png](docs/images/output_18_0.png)
-
-
-### Plotting player shot distribution
 
 ```python
-plot_player(shots_df, "Damian Lillard")
+dlo.plot_shots()
 ```
 
 
-![png](docs/images/output_20_0.png)
+![png](docs/images/output_24_0.png)
 
 
 ```python
-plot_player(shots_df, "Damian Lillard",date_range=1,missed=False, attempt="3-pointer")
+dlo.plot_shots(distances=["16ft","17ft","18ft","19ft","20ft","21ft","22ft","23ft","24ft","25ft","26ft"],attempt="2-pointer")
 ```
 
 
-![png](docs/images/output_21_0.png)
+![png](docs/images/output_25_0.png)
 
-
-### Plotting least/most effective shot for team/player
 
 ```python
-least_effective_shot_team(shots_df, "Portland")
+dlo.plot_effective(most_or_least="most")
 ```
 
 
-![png](docs/images/output_23_0.png)
+![png](docs/images/output_26_0.png)
+
+
+```python
+dlo.plot_effective(most_or_least="most",exclude=["0ft"])
+```
+
+
+![png](docs/images/output_27_0.png)
 
