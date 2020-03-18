@@ -327,47 +327,11 @@ houston.plot_shots()
 
 
 ```python
-houston.plot_shots(date_range=((2020,1,1), (2020,1,10)))
+houston.plot_shots(date_range=((2020,1,3), (2020,1,11)))
 ```
 
 
-    ---------------------------------------------------------------------------
-
-    IndexError                                Traceback (most recent call last)
-
-    <ipython-input-16-820bf78dc080> in <module>
-    ----> 1 houston.plot_shots(date_range=((2020,1,1), (2020,1,10)))
-    
-
-    ~/DEV/shot_chart/shot_chart/core.py in plot_shots(self, **kwargs)
-        296         "Plots the shot chart for a given `date_range` including `made`, `missed` and `attempt` shots within `distances`"
-        297         #use kwargs
-    --> 298         self.__plot_shot_chart(self.dataframe, **kwargs)
-        299         self.__plot_scatter_volume(self.dataframe, self.__calculate_metric(self.dataframe, "fg"), self.__calculate_metric(self.dataframe, "efg"))
-        300         plt.show()
-
-
-    ~/DEV/shot_chart/shot_chart/core.py in __plot_shot_chart(self, dataframe, date_range, made, missed, attempt, distances)
-        248         else:
-        249             #custom date range in the form of ((from_y,from_m,from_d),(to_y,to_m,to_d))
-    --> 250             from_index = dataframe[(dataframe["year"]==date_range[0][0]) & (dataframe["month"]==date_range[0][1]) & (dataframe["day"]==date_range[0][2])].index[0]
-        251             to_index = dataframe[(dataframe["year"]==date_range[1][0]) & (dataframe["month"]==date_range[1][1]) & (dataframe["day"]==date_range[1][2])].index[0]
-        252             shots_df = dataframe.iloc[[from_index,to_index]]
-
-
-    ~/opt/anaconda3/envs/shot_chart/lib/python3.7/site-packages/pandas/core/indexes/base.py in __getitem__(self, key)
-       4278         if is_scalar(key):
-       4279             key = com.cast_scalar_indexer(key)
-    -> 4280             return getitem(key)
-       4281 
-       4282         if isinstance(key, slice):
-
-
-    IndexError: index 0 is out of bounds for axis 0 with size 0
-
-
-
-![png](docs/images/output_16_1.png)
+![png](docs/images/output_16_0.png)
 
 
 Please check the extra options when using the plotting functions
