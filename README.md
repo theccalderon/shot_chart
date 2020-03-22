@@ -187,10 +187,38 @@ list_team_players(shots_2019, 'Portland')
 
 
 
-### List the games for a given day
+Note how the game_id format is YYYYMMDD0WIN
+
+## Plotting team shot distribution
 
 ```python
-list_game_ids(shots_2019, 2020, 1, 20)
+houston = TeamShots(shots_2019,"Houston")
+```
+
+```python
+houston.plot_shots()
+```
+
+
+![png](docs/images/output_13_0.png)
+
+
+```python
+houston.plot_shots(date_range=((2020,1,3), (2020,1,11)))
+```
+
+
+![png](docs/images/output_14_0.png)
+
+
+Please check the extra options when using the plotting functions
+
+```python
+portland_20191125 = TeamShots(shots_2019,"Portland")
+```
+
+```python
+portland_20191125.list_game_ids(2019,11,25)
 ```
 
 
@@ -221,88 +249,10 @@ list_game_ids(shots_2019, 2020, 1, 20)
   </thead>
   <tbody>
     <tr>
-      <th>112968</th>
-      <td>202001200ATL</td>
-      <td>Toronto</td>
-      <td>Atlanta</td>
-    </tr>
-    <tr>
-      <th>113331</th>
-      <td>202001200WAS</td>
-      <td>Washington</td>
-      <td>Detroit</td>
-    </tr>
-    <tr>
-      <th>113681</th>
-      <td>202001200POR</td>
+      <th>45560</th>
+      <td>201911250CHI</td>
       <td>Portland</td>
-      <td>Golden State</td>
-    </tr>
-    <tr>
-      <th>113896</th>
-      <td>202001200UTA</td>
-      <td>Utah</td>
-      <td>Indiana</td>
-    </tr>
-    <tr>
-      <th>114075</th>
-      <td>202001200MEM</td>
-      <td>New Orleans</td>
-      <td>Memphis</td>
-    </tr>
-    <tr>
-      <th>114266</th>
-      <td>202001200MIA</td>
-      <td>Miami</td>
-      <td>Sacramento</td>
-    </tr>
-    <tr>
-      <th>114455</th>
-      <td>202001200MIL</td>
-      <td>Milwaukee</td>
       <td>Chicago</td>
-    </tr>
-    <tr>
-      <th>114625</th>
-      <td>202001200HOU</td>
-      <td>Oklahoma City</td>
-      <td>Houston</td>
-    </tr>
-    <tr>
-      <th>114813</th>
-      <td>202001200MIN</td>
-      <td>Denver</td>
-      <td>Minnesota</td>
-    </tr>
-    <tr>
-      <th>115164</th>
-      <td>202001200PHO</td>
-      <td>San Antonio</td>
-      <td>Phoenix</td>
-    </tr>
-    <tr>
-      <th>124108</th>
-      <td>202001200CLE</td>
-      <td>New York</td>
-      <td>Cleveland</td>
-    </tr>
-    <tr>
-      <th>124287</th>
-      <td>202001200CHO</td>
-      <td>Orlando</td>
-      <td>Charlotte</td>
-    </tr>
-    <tr>
-      <th>124455</th>
-      <td>202001200BOS</td>
-      <td>Boston</td>
-      <td>LA Lakers</td>
-    </tr>
-    <tr>
-      <th>124817</th>
-      <td>202001200BRK</td>
-      <td>Philadelphia</td>
-      <td>Brooklyn</td>
     </tr>
   </tbody>
 </table>
@@ -310,42 +260,12 @@ list_game_ids(shots_2019, 2020, 1, 20)
 
 
 
-Note how the game_id format is YYYYMMDD0WIN
-
-## Plotting team shot distribution
-
 ```python
-houston = TeamShots(shots_2019,"Houston")
-```
-
-```python
-houston.plot_shots()
+portland_20191125.plot_shots("201911250CHI")
 ```
 
 
-![png](docs/images/output_15_0.png)
-
-
-```python
-houston.plot_shots(date_range=((2020,1,3), (2020,1,11)))
-```
-
-
-![png](docs/images/output_16_0.png)
-
-
-Please check the extra options when using the plotting functions
-
-```python
-portland_20191125 = TeamShots(shots_2019,"Portland","201911250CHI")
-```
-
-```python
-portland_20191125.plot_shots()
-```
-
-
-![png](docs/images/output_19_0.png)
+![png](docs/images/output_18_0.png)
 
 
 ## Plotting player shot distribution
@@ -359,7 +279,7 @@ player_shots.plot_shots()
 ```
 
 
-![png](docs/images/output_22_0.png)
+![png](docs/images/output_21_0.png)
 
 
 ```python
@@ -371,7 +291,7 @@ dlo.plot_shots()
 ```
 
 
-![png](docs/images/output_24_0.png)
+![png](docs/images/output_23_0.png)
 
 
 ```python
@@ -379,7 +299,7 @@ dlo.plot_shots(distances=["16ft","17ft","18ft","19ft","20ft","21ft","22ft","23ft
 ```
 
 
-![png](docs/images/output_25_0.png)
+![png](docs/images/output_24_0.png)
 
 
 ```python
@@ -387,7 +307,7 @@ dlo.plot_effective(most_or_least="most")
 ```
 
 
-![png](docs/images/output_26_0.png)
+![png](docs/images/output_25_0.png)
 
 
 ```python
@@ -395,5 +315,5 @@ dlo.plot_effective(most_or_least="most",exclude=["0ft"])
 ```
 
 
-![png](docs/images/output_27_0.png)
+![png](docs/images/output_26_0.png)
 
