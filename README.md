@@ -12,13 +12,13 @@ This file will become your README and also the index of your documentation.
 
 We first create a pandas dataframe from the source data.
 
-```python
+```
 shots_2019 = make_df(untar_data(URLs.SHOTS_2019))
 ```
 
 ## Listing teams for the season
 
-```python
+```
 list_teams(shots_2019)
 ```
 
@@ -61,7 +61,7 @@ list_teams(shots_2019)
 
 ## Listing players who took at least 1 shot for a particular team
 
-```python
+```
 list_team_players(shots_2019, 'Portland')
 ```
 
@@ -191,11 +191,11 @@ Note how the game_id format is YYYYMMDD0WIN
 
 ## Plotting team shot distribution
 
-```python
+```
 houston = TeamShots(shots_2019,"Houston")
 ```
 
-```python
+```
 houston.plot_shots()
 ```
 
@@ -203,7 +203,7 @@ houston.plot_shots()
 ![png](docs/images/output_13_0.png)
 
 
-```python
+```
 houston.plot_shots(date_range=((2020,1,3), (2020,1,11)))
 ```
 
@@ -213,11 +213,11 @@ houston.plot_shots(date_range=((2020,1,3), (2020,1,11)))
 
 Please check the extra options when using the plotting functions
 
-```python
+```
 portland_20191125 = TeamShots(shots_2019,"Portland")
 ```
 
-```python
+```
 portland_20191125.list_game_ids(2019,11,25)
 ```
 
@@ -260,7 +260,7 @@ portland_20191125.list_game_ids(2019,11,25)
 
 
 
-```python
+```
 portland_20191125.plot_shots("201911250CHI")
 ```
 
@@ -270,11 +270,11 @@ portland_20191125.plot_shots("201911250CHI")
 
 ## Plotting player shot distribution
 
-```python
+```
 player_shots = PlayerShots(shots_2019,"Anthony Davis")
 ```
 
-```python
+```
 player_shots.plot_shots()
 ```
 
@@ -282,11 +282,11 @@ player_shots.plot_shots()
 ![png](docs/images/output_21_0.png)
 
 
-```python
+```
 dlo = PlayerShots(shots_2019,"D'Angelo Russell")
 ```
 
-```python
+```
 dlo.plot_shots()
 ```
 
@@ -294,7 +294,7 @@ dlo.plot_shots()
 ![png](docs/images/output_23_0.png)
 
 
-```python
+```
 dlo.plot_shots(distances=["16ft","17ft","18ft","19ft","20ft","21ft","22ft","23ft","24ft","25ft","26ft"],attempt="2-pointer")
 ```
 
@@ -302,7 +302,7 @@ dlo.plot_shots(distances=["16ft","17ft","18ft","19ft","20ft","21ft","22ft","23ft
 ![png](docs/images/output_24_0.png)
 
 
-```python
+```
 dlo.plot_effective(most_or_least="most")
 ```
 
@@ -310,7 +310,7 @@ dlo.plot_effective(most_or_least="most")
 ![png](docs/images/output_25_0.png)
 
 
-```python
+```
 dlo.plot_effective(most_or_least="most",exclude=["0ft"])
 ```
 

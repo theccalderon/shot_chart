@@ -395,7 +395,12 @@ def list_team_players(dataframe, team):
 # Cell
 class PlayerShots(Shots):
     "Player shots"
-    def __init__(self, dataframe, player, game_id = None):
+    def __init__(self, dataframe, player):
+        self.team_total_shots = len(dataframe.loc[dataframe['team']==dataframe.loc[dataframe['shots_by']==player]['team'].to_list()[0]])
         dataframe = dataframe.loc[dataframe['shots_by']==player].copy()
         self.player = player
         super().__init__(dataframe)
+
+    @property
+    def aeFG(self):
+        return self.efg_pct + len(self.dataframe)/self.team_total_shots - 0.20
