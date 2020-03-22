@@ -403,4 +403,5 @@ class PlayerShots(Shots):
 
     @property
     def aeFG(self):
-        return self.efg_pct + len(self.dataframe)/self.team_total_shots - 0.20
+        "Accounts for volume. Follows Dean O's principle for off rating increase based on number of possesions from Basketball on Paper"
+        return round(self.efg_pct + len(self.dataframe)/self.team_total_shots - 0.20, 2)
