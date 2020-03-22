@@ -1552,7 +1552,7 @@ Name: team, dtype: object
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="PlayerShots" class="doc_header"><code>class</code> <code>PlayerShots</code><a href="https://github.com/theccalderon/shot_chart/tree/master/shot_chart/core.py#L396" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>PlayerShots</code>(<strong><code>dataframe</code></strong>, <strong><code>player</code></strong>, <strong><code>game_id</code></strong>=<em><code>None</code></em>) :: <a href="/shot_chart/core#Shots"><code>Shots</code></a></p>
+<h2 id="PlayerShots" class="doc_header"><code>class</code> <code>PlayerShots</code><a href="https://github.com/theccalderon/shot_chart/tree/master/shot_chart/core.py#L396" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>PlayerShots</code>(<strong><code>dataframe</code></strong>, <strong><code>player</code></strong>) :: <a href="/shot_chart/core#Shots"><code>Shots</code></a></p>
 </blockquote>
 <p>Player shots</p>
 
@@ -1852,12 +1852,638 @@ Name: team, dtype: object
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># #hide</span>
-<span class="c1"># from nbdev.export import notebook2script</span>
-<span class="c1"># notebook2script()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">player_shots</span><span class="o">.</span><span class="n">team_total_shots</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>5604</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Dictionary of strings and ints</span>
+<span class="n">players_aeFG</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">player</span> <span class="ow">in</span> <span class="n">shots_2019</span><span class="p">[</span><span class="s1">&#39;shots_by&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span><span class="o">.</span><span class="n">to_list</span><span class="p">():</span>
+    <span class="n">players_aeFG</span><span class="o">.</span><span class="n">update</span><span class="p">(</span> <span class="p">{</span><span class="n">player</span> <span class="p">:</span> <span class="n">PlayerShots</span><span class="p">(</span><span class="n">shots_2019</span><span class="p">,</span> <span class="n">player</span><span class="p">)</span><span class="o">.</span><span class="n">aeFG</span><span class="p">}</span> <span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">sorted</span><span class="p">(</span><span class="n">players_aeFG</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[(&#39;Josh Reaves&#39;, -0.19983349983349985),
+ (&#39;Talen Horton-Tucker&#39;, -0.1998203377650018),
+ (&#39;Isaiah Roby&#39;, -0.199815668202765),
+ (&#39;Malik Newman&#39;, -0.19964949176305644),
+ (&#39;Miye Oni&#39;, -0.19962914889671798),
+ (&#39;Vic Law&#39;, -0.19947285187137587),
+ (&#39;Quinndary Weatherspoon&#39;, -0.19946723494938734),
+ (&#39;Stanton Kidd&#39;, -0.19944372334507696),
+ (&#39;William Howard&#39;, -0.1993091537132988),
+ (&#39;Chasson Randle&#39;, -0.19929996499824992),
+ (&#39;Luka Šamanić&#39;, -0.1992896465991831),
+ (&#39;Joe Chealey&#39;, -0.19874416935773234),
+ (&#39;Paul Watson&#39;, -0.1986779044785986),
+ (&#39;Kevin Hervey&#39;, -0.10797235023041477),
+ (&#39;Jarrod Uthoff&#39;, -0.058812754409769324),
+ (&#39;Henry Ellenson&#39;, -0.05878197320341047),
+ (&#39;Nigel Williams-Goss&#39;, -0.05870202113851289),
+ (&#39;Justin Anderson&#39;, -0.02895597703149469),
+ (&#39;Udonis Haslem&#39;, -0.028902305159165753),
+ (&#39;Jeremiah Martin&#39;, 0.0008700191404210911),
+ (&#39;Tariq Owens&#39;, 0.0008773469029654257),
+ (&#39;Dewan Hernandez&#39;, 0.0008851124092759677),
+ (&#39;Devon Hall&#39;, 0.0009216589861751057),
+ (&#39;Brian Bowen&#39;, 0.021569311246730588),
+ (&#39;Matt Mooney&#39;, 0.05070101647388714),
+ (&#39;Jared Harper&#39;, 0.05070187752237232),
+ (&#39;Donta Hall&#39;, 0.05071377587437542),
+ (&#39;Zhaire Smith&#39;, 0.07193935119887168),
+ (&#39;Stanley Johnson&#39;, 0.09548769693751102),
+ (&#39;Marial Shayok&#39;, 0.10088152327221439),
+ (&#39;Jonah Bolden&#39;, 0.10176304654442875),
+ (&#39;Jordan Bone&#39;, 0.1035688793718772),
+ (&#39;Ignas Brazdeikis&#39;, 0.10373641304347825),
+ (&#39;B.J. Johnson&#39;, 0.11316288877174485),
+ (&#39;Frank Mason&#39;, 0.1232089174125992),
+ (&#39;Gabe Vincent&#39;, 0.12347603366264176),
+ (&#39;Antonius Cleveland&#39;, 0.13099900099900103),
+ (&#39;Tyrone Wallace&#39;, 0.14710626342753264),
+ (&#39;Al-Farouq Aminu&#39;, 0.15511157968722544),
+ (&#39;Ryan Anderson&#39;, 0.1612089810017271),
+ (&#39;Amile Jefferson&#39;, 0.162460024600246),
+ (&#39;Michael Kidd-Gilchrist&#39;, 0.1707642626480086),
+ (&#39;Josh Magette&#39;, 0.1726357406431207),
+ (&#39;Theo Pinson&#39;, 0.17644858186880108),
+ (&#39;Evan Turner&#39;, 0.1810725499917369),
+ (&#39;Zach Norvell&#39;, 0.18215594681997843),
+ (&#39;Chandler Parsons&#39;, 0.1929747149231532),
+ (&#39;Charlie Brown&#39;, 0.1931399768633284),
+ (&#39;Kevon Looney&#39;, 0.1936506825341267),
+ (&#39;Tremont Waters&#39;, 0.19612102133613152),
+ (&#39;Jaylen Nowell&#39;, 0.19908311910882603),
+ (&#39;Zylan Cheatham&#39;, 0.20085062946580473),
+ (&#39;Iman Shumpert&#39;, 0.20113624499738997),
+ (&#39;Moses Brown&#39;, 0.2016711229946524),
+ (&#39;Jalen Lecque&#39;, 0.20175469380593086),
+ (&#39;Jacob Evans&#39;, 0.20345117255862794),
+ (&#39;Oshae Brissett&#39;, 0.20637280934678703),
+ (&#39;Amir Coffey&#39;, 0.21576016756851107),
+ (&#39;Dennis Smith&#39;, 0.21583559782608697),
+ (&#39;Ed Davis&#39;, 0.2163044687557945),
+ (&#39;Rayjon Tucker&#39;, 0.22352308548117927),
+ (&#39;Tim Frazier&#39;, 0.22677373304782295),
+ (&#39;Ty Jerome&#39;, 0.22842428496227407),
+ (&#39;C.J. Miles&#39;, 0.23016540317022738),
+ (&#39;Romeo Langford&#39;, 0.2310178384050367),
+ (&#39;X Y&#39;, 0.23120606478290834),
+ (&#39;Vlatko Čančar&#39;, 0.23263250263250262),
+ (&#39;Justise Winslow&#39;, 0.23360043907793632),
+ (&#39;Dwayne Bacon&#39;, 0.23377466810190167),
+ (&#39;Džanan Musa&#39;, 0.23418653210370627),
+ (&#39;Carsen Edwards&#39;, 0.23976215459951028),
+ (&#39;Matthew Dellavedova&#39;, 0.24066947073256217),
+ (&#39;Khyri Thomas&#39;, 0.24303354746609562),
+ (&#39;Nicolas Batum&#39;, 0.24453175457481163),
+ (&#39;Deonte Burton&#39;, 0.24898617511520738),
+ (&#39;Terance Mann&#39;, 0.24942572874847269),
+ (&#39;Justin Patton&#39;, 0.2518433179723502),
+ (&#39;Michael Frazier&#39;, 0.2518998272884283),
+ (&#39;Bruno Caboclo&#39;, 0.2530597014925373),
+ (&#39;Blake Griffin&#39;, 0.25461099214846533),
+ (&#39;Jerome Robinson&#39;, 0.2577029149938907),
+ (&#39;DeMarre Carroll&#39;, 0.25958977091102825),
+ (&#39;Kenrich Williams&#39;, 0.2639877509356924),
+ (&#39;Malcolm Miller&#39;, 0.2642485395645247),
+ (&#39;PJ Dozier&#39;, 0.26544401544401547),
+ (&#39;Treveon Graham&#39;, 0.27147386461011136),
+ (&#39;Alize Johnson&#39;, 0.272615518744551),
+ (&#39;Naz Mitrou-Long&#39;, 0.272615518744551),
+ (&#39;Melvin Frazier&#39;, 0.27298717272887013),
+ (&#39;Yuta Watanabe&#39;, 0.2749185888738127),
+ (&#39;Jaylen Hoard&#39;, 0.2753475935828877),
+ (&#39;Nickeil Alexander-Walker&#39;, 0.27776794828172846),
+ (&#39;Tyler Johnson&#39;, 0.2798297947008247),
+ (&#39;T.J. Leaf&#39;, 0.28203138622493457),
+ (&#39;Wesley Iwundu&#39;, 0.28373748023194517),
+ (&#39;Louis King&#39;, 0.28374732334047104),
+ (&#39;Dewayne Dedmon&#39;, 0.2854140694568121),
+ (&#39;Sterling Brown&#39;, 0.28664921465968585),
+ (&#39;Rodney McGruder&#39;, 0.2870553325187642),
+ (&#39;D.J. Wilson&#39;, 0.28705792940381686),
+ (&#39;Victor Oladipo&#39;, 0.28807323452484745),
+ (&#39;Allen Crabbe&#39;, 0.2889208395306561),
+ (&#39;Edmond Sumner&#39;, 0.2893548387096774),
+ (&#39;Yogi Ferrell&#39;, 0.289919857524488),
+ (&#39;Gary Payton&#39;, 0.289986216402481),
+ (&#39;Kelan Martin&#39;, 0.2908483290488432),
+ (&#39;Sekou Doumbouya&#39;, 0.2913990007137759),
+ (&#39;Darius Bazley&#39;, 0.2923963133640553),
+ (&#39;Stephen Curry&#39;, 0.29435071753587677),
+ (&#39;Anthony Tolliver&#39;, 0.29590240641711224),
+ (&#39;Jordan Poole&#39;, 0.29732936646832336),
+ (&#39;Kadeem Allen&#39;, 0.2974728260869565),
+ (&#39;Alfonzo McKinnie&#39;, 0.299968454258675),
+ (&#39;Vince Carter&#39;, 0.3000743678730788),
+ (&#39;Josh Gray&#39;, 0.3003402517863219),
+ (&#39;Kyle Guy&#39;, 0.3003561887800534),
+ (&#39;Daryl Macon&#39;, 0.30054884742041715),
+ (&#39;Brandon Goodwin&#39;, 0.30106924475293334),
+ (&#39;DaQuan Jeffries&#39;, 0.30124666073018697),
+ (&#39;Elie Okobo&#39;, 0.3015844885067555),
+ (&#39;Justin James&#39;, 0.30371326803205695),
+ (&#39;Draymond Green&#39;, 0.30512775638781936),
+ (&#39;Nassir Little&#39;, 0.30523395721925134),
+ (&#39;Thabo Sefolosha&#39;, 0.30571675302245244),
+ (&#39;Vincent Poirier&#39;, 0.30577124868835254),
+ (&#39;Marko Guduric&#39;, 0.3061194029850746),
+ (&#39;Cody Martin&#39;, 0.30713670613562966),
+ (&#39;Kevin Knox&#39;, 0.3079347826086956),
+ (&#39;Wenyen Gabriel&#39;, 0.30819234194122885),
+ (&#39;Patrick McCaw&#39;, 0.30867764206054166),
+ (&#39;Luguentz Dort&#39;, 0.3091244239631336),
+ (&#39;Marvin Bagley&#39;, 0.3097417631344613),
+ (&#39;Khem Birch&#39;, 0.31020734493059215),
+ (&#39;Hamidou Diallo&#39;, 0.31036866359446996),
+ (&#39;Michael Carter-Williams&#39;, 0.3121718502899314),
+ (&#39;Frank Jackson&#39;, 0.31321197686287844),
+ (&#39;Grant Williams&#39;, 0.3132284015389996),
+ (&#39;Norvel Pelle&#39;, 0.3161706629055007),
+ (&#39;Frank Ntilikina&#39;, 0.31638586956521736),
+ (&#39;Reggie Bullock&#39;, 0.3180434782608696),
+ (&#39;Brandon Knight&#39;, 0.3192674377847879),
+ (&#39;Wayne Ellington&#39;, 0.3195516304347826),
+ (&#39;Chandler Hutchison&#39;, 0.3204461942257218),
+ (&#39;Mario Hezonja&#39;, 0.3214171122994652),
+ (&#39;Naz Reid&#39;, 0.32164524421593826),
+ (&#39;Mychal Mulder&#39;, 0.32172558627931397),
+ (&#39;Justin Jackson&#39;, 0.3217815517815517),
+ (&#39;Goga Bitadze&#39;, 0.3223190932868352),
+ (&#39;Admiral Schofield&#39;, 0.3225775327360441),
+ (&#39;Elfrid Payton&#39;, 0.32472826086956524),
+ (&#39;Ky Bowman&#39;, 0.32565278263913194),
+ (&#39;Terrance Ferguson&#39;, 0.32668202764976956),
+ (&#34;DeAndre&#39; Bembry&#34;, 0.32734919847959015),
+ (&#39;Gary Clark&#39;, 0.32744386873920556),
+ (&#34;De&#39;Anthony Melton&#34;, 0.32953188602442335),
+ (&#39;J.J. Barea&#39;, 0.3296370296370296),
+ (&#39;Juan Toscano-Anderson&#39;, 0.3310255512775639),
+ (&#39;Rondae Hollis-Jefferson&#39;, 0.3320446096654274),
+ (&#39;Jordan McRae&#39;, 0.3327153687112336),
+ (&#39;Chris Chiozza&#39;, 0.33361130254996557),
+ (&#39;Brad Wanamaker&#39;, 0.335613850996852),
+ (&#39;Keita Bates-Diop&#39;, 0.33564695801199657),
+ (&#39;Thanasis Antetokounmpo&#39;, 0.33608005404492486),
+ (&#39;Lonnie Walker&#39;, 0.33741608950452845),
+ (&#39;D.J. Augustin&#39;, 0.337650676506765),
+ (&#39;Rajon Rondo&#39;, 0.33874955084441244),
+ (&#39;Quinn Cook&#39;, 0.340901904419691),
+ (&#39;Wilson Chandler&#39;, 0.34184270053941185),
+ (&#39;Kent Bazemore&#39;, 0.3418850267379679),
+ (&#39;Justin Robinson&#39;, 0.3420675396278429),
+ (&#34;Kyle O&#39;Quinn&#34;, 0.34269393511988716),
+ (&#39;Juan Hernangómez&#39;, 0.34317304317304315),
+ (&#39;Timothé Luwawu-Cabarrot&#39;, 0.3432347311640856),
+ (&#39;Dion Waiters&#39;, 0.3447566776436151),
+ (&#39;Adam Mokoka&#39;, 0.344899387576553),
+ (&#39;Dragan Bender&#39;, 0.3455379158925857),
+ (&#39;Cory Joseph&#39;, 0.34571682991985747),
+ (&#39;Reggie Jackson&#39;, 0.3458600999286224),
+ (&#39;Josh Jackson&#39;, 0.34611940298507465),
+ (&#39;Ian Mahinmi&#39;, 0.3461819434872501),
+ (&#39;Alex Caruso&#39;, 0.3465325188645347),
+ (&#39;Alen Smailagić&#39;, 0.3470003500175009),
+ (&#39;Javonte Green&#39;, 0.34713885974116826),
+ (&#39;Semi Ojeleye&#39;, 0.347806925498426),
+ (&#39;Josh Okogie&#39;, 0.34803770351328195),
+ (&#39;Marco Belinelli&#39;, 0.3481264429053454),
+ (&#39;Shaquille Harrison&#39;, 0.3485214348206474),
+ (&#39;Troy Daniels&#39;, 0.34856629536471434),
+ (&#39;Kris Dunn&#39;, 0.3491426071741032),
+ (&#39;Ryan Broekhoff&#39;, 0.3498235098235098),
+ (&#39;Jake Layman&#39;, 0.35033419023136253),
+ (&#39;Denzel Valentine&#39;, 0.3511198600174978),
+ (&#39;Cam Reddish&#39;, 0.35155511485704843),
+ (&#39;Omari Spellman&#39;, 0.35162758137906897),
+ (&#39;Trey Burke&#39;, 0.3522143864598026),
+ (&#39;Jalen McDaniels&#39;, 0.3523789020452099),
+ (&#39;Zach Collins&#39;, 0.3531751336898396),
+ (&#39;Otto Porter&#39;, 0.3543219597550306),
+ (&#39;Eric Gordon&#39;, 0.3553022452504317),
+ (&#39;Keldon Johnson&#39;, 0.35550523885633106),
+ (&#39;Jevon Carter&#39;, 0.35562028426039655),
+ (&#39;Chris Boucher&#39;, 0.3560258452823509),
+ (&#39;Jarrett Culver&#39;, 0.35700085689802913),
+ (&#39;Anžejs Pasečņiks&#39;, 0.35705720192970364),
+ (&#39;Bruce Brown&#39;, 0.35922912205567453),
+ (&#39;Matisse Thybulle&#39;, 0.36107898448519044),
+ (&#39;Jordan Bell&#39;, 0.36148243359040283),
+ (&#39;Dusty Hannahs&#39;, 0.3615264586160109),
+ (&#39;Chris Clemons&#39;, 0.3617616580310881),
+ (&#39;Luke Kornet&#39;, 0.361846019247594),
+ (&#39;Dante Exum&#39;, 0.36188021509363993),
+ (&#39;Solomon Hill&#39;, 0.3618928086838535),
+ (&#39;Bruno Fernando&#39;, 0.36288712609486035),
+ (&#39;Juwan Morgan&#39;, 0.3631522343778973),
+ (&#39;Jeff Teague&#39;, 0.36329048843187656),
+ (&#39;Rodions Kurucs&#39;, 0.3633165129632852),
+ (&#39;Thon Maker&#39;, 0.3633690221270521),
+ (&#39;Jonathan Isaac&#39;, 0.36658056580565807),
+ (&#39;Anfernee Simons&#39;, 0.36723262032085563),
+ (&#39;Kyle Anderson&#39;, 0.3673202170963365),
+ (&#39;Ryan Arcidiacono&#39;, 0.3683202099737533),
+ (&#39;Jared Dudley&#39;, 0.3689831117499102),
+ (&#39;Damyean Dotson&#39;, 0.36925271739130433),
+ (&#39;Mike Muscala&#39;, 0.36930875576036865),
+ (&#34;E&#39;Twaun Moore&#34;, 0.3695814903028241),
+ (&#39;Grayson Allen&#39;, 0.3698507462686567),
+ (&#39;Raul Neto&#39;, 0.370148095909732),
+ (&#39;Shabazz Napier&#39;, 0.37026563838903165),
+ (&#39;James Ennis&#39;, 0.37095204513399155),
+ (&#39;Marc Gasol&#39;, 0.37177730571782613),
+ (&#39;Emmanuel Mudiay&#39;, 0.3732171333209717),
+ (&#39;RJ Barrett&#39;, 0.37330163043478265),
+ (&#39;Isaiah Thomas&#39;, 0.3733976567884218),
+ (&#39;Jeremy Pargo&#39;, 0.3738501925096254),
+ (&#39;Caleb Martin&#39;, 0.37506996770721207),
+ (&#39;Willy Hernangómez&#39;, 0.3751166128453534),
+ (&#39;Caris LeVert&#39;, 0.3759683313032886),
+ (&#39;Chimezie Metu&#39;, 0.3762155922571479),
+ (&#39;Aaron Holiday&#39;, 0.37631211857018304),
+ (&#39;Ricky Rubio&#39;, 0.3772117915423758),
+ (&#39;Rui Hachimura&#39;, 0.37804962095106825),
+ (&#39;Nicolas Claxton&#39;, 0.3783521837480424),
+ (&#39;Mohamed Bamba&#39;, 0.37849762783342117),
+ (&#39;Frank Kaminsky&#39;, 0.3789559571854712),
+ (&#39;Mike Conley&#39;, 0.3795605414426108),
+ (&#39;Gary Harris&#39;, 0.38020709020709015),
+ (&#39;Abdel Nader&#39;, 0.3805529953917051),
+ (&#39;Garrett Temple&#39;, 0.3810040020880459),
+ (&#39;Ante Žižić&#39;, 0.3826182965299684),
+ (&#39;Patrick Patterson&#39;, 0.3826409495548962),
+ (&#39;T.J. McConnell&#39;, 0.3831211857018309),
+ (&#39;Kevin Porter&#39;, 0.3836067297581493),
+ (&#39;Pat Connaughton&#39;, 0.38408039182570514),
+ (&#39;Skal Labissière&#39;, 0.3845655080213904),
+ (&#39;Jalen Brunson&#39;, 0.38460206460206464),
+ (&#39;Mfiondu Kabengele&#39;, 0.38558561703613187),
+ (&#39;Mike Scott&#39;, 0.3858885754583921),
+ (&#39;Tomáš Satoranský&#39;, 0.3860629921259842),
+ (&#39;Malik Monk&#39;, 0.38665231431646935),
+ (&#39;Jae Crowder&#39;, 0.38683853459972867),
+ (&#39;Wesley Matthews&#39;, 0.38772504644485734),
+ (&#39;Allonzo Trier&#39;, 0.38800271739130426),
+ (&#39;Gorgui Dieng&#39;, 0.388783204798629),
+ (&#39;Rudy Gay&#39;, 0.3889717634523175),
+ (&#39;Damion Lee&#39;, 0.3892544627231362),
+ (&#39;Bismack Biyombo&#39;, 0.38987441693577324),
+ (&#39;Josh Richardson&#39;, 0.3906699576868829),
+ (&#39;Tyus Jones&#39;, 0.3925915875169607),
+ (&#39;JaMychal Green&#39;, 0.3927142607784954),
+ (&#39;Delon Wright&#39;, 0.39310356310356315),
+ (&#39;Carmelo Anthony&#39;, 0.3933021390374331),
+ (&#39;Jeremy Lamb&#39;, 0.3933478639930253),
+ (&#39;Monte Morris&#39;, 0.3942400842400842),
+ (&#39;Marvin Williams&#39;, 0.39431288123430214),
+ (&#39;Austin Rivers&#39;, 0.3946113989637306),
+ (&#39;Malcolm Brogdon&#39;, 0.3950828247602441),
+ (&#39;Kyle Kuzma&#39;, 0.3951024074739489),
+ (&#39;Torrey Craig&#39;, 0.395977535977536),
+ (&#39;Troy Brown&#39;, 0.3961474844934528),
+ (&#39;Brook Lopez&#39;, 0.3964364127681134),
+ (&#39;Patrick Beverley&#39;, 0.3967289230232152),
+ (&#39;Derrick Walton&#39;, 0.39680747076278583),
+ (&#39;Harry Giles&#39;, 0.3968655387355298),
+ (&#39;Jeff Green&#39;, 0.39728351566845915),
+ (&#39;Gary Trent&#39;, 0.39832219251336903),
+ (&#39;Boban Marjanović&#39;, 0.3984715284715284),
+ (&#39;Avery Bradley&#39;, 0.3986309737693137),
+ (&#39;James Johnson&#39;, 0.3987852177094768),
+ (&#39;Andre Iguodala&#39;, 0.39914745700695203),
+ (&#39;Marcus Smart&#39;, 0.39947883875480933),
+ (&#39;Wendell Carter&#39;, 0.40001749781277346),
+ (&#39;Ish Smith&#39;, 0.40010337698139214),
+ (&#39;Trey Lyles&#39;, 0.40091280412004976),
+ (&#39;KZ Okpala&#39;, 0.40091474570069513),
+ (&#39;Derrick White&#39;, 0.4018682294441485),
+ (&#39;Darius Garland&#39;, 0.40215212057483346),
+ (&#39;Alec Burks&#39;, 0.4021561078053903),
+ (&#34;De&#39;Andre Hunter&#34;, 0.40254338125929595),
+ (&#39;Noah Vonleh&#39;, 0.40491002570694085),
+ (&#39;Aaron Gordon&#39;, 0.404934106483922),
+ (&#39;Dejounte Murray&#39;, 0.40536494405966966),
+ (&#39;Jabari Parker&#39;, 0.4056089902495456),
+ (&#39;Robin Lopez&#39;, 0.40610707650734673),
+ (&#39;Nicolò Melli&#39;, 0.4069547465124192),
+ (&#39;Tyler Herro&#39;, 0.40696304427369195),
+ (&#39;Taurean Waller-Prince&#39;, 0.40789281364190005),
+ (&#39;Caleb Swanigan&#39;, 0.4083704363312555),
+ (&#39;Ersan İlyasova&#39;, 0.4086404323593988),
+ (&#39;Maurice Harkless&#39;, 0.40939780066329207),
+ (&#39;Garrison Mathews&#39;, 0.4096485182632667),
+ (&#39;John Henson&#39;, 0.4097932001402032),
+ (&#39;Jordan McLaughlin&#39;, 0.4098200514138817),
+ (&#39;Bobby Portis&#39;, 0.4100339673913043),
+ (&#39;Luke Kennard&#39;, 0.4110278372591007),
+ (&#39;Jimmy Butler&#39;, 0.4113574826198317),
+ (&#39;Josh Hart&#39;, 0.4118305546104117),
+ (&#39;JaKarr Sampson&#39;, 0.4141238012205754),
+ (&#39;Markelle Fultz&#39;, 0.416324020383061),
+ (&#39;Paul Millsap&#39;, 0.41669006669006675),
+ (&#39;Cameron Johnson&#39;, 0.4168520793121601),
+ (&#39;Trevor Ariza&#39;, 0.4175244879786287),
+ (&#39;Coby White&#39;, 0.41788276465441815),
+ (&#39;Tristan Thompson&#39;, 0.41831756046267093),
+ (&#39;Michael Porter&#39;, 0.41966654966654965),
+ (&#39;Myles Turner&#39;, 0.41997384481255445),
+ (&#39;Kevin Huerter&#39;, 0.42064452156668314),
+ (&#39;Sviatoslav Mykhailiuk&#39;, 0.42102069950035687),
+ (&#39;Isaac Bonga&#39;, 0.42135768435561677),
+ (&#39;Jarred Vanderbilt&#39;, 0.4214040014040014),
+ (&#39;Lauri Markkanen&#39;, 0.4220122484689414),
+ (&#39;Kyrie Irving&#39;, 0.4222115886549504),
+ (&#39;David Nwaba&#39;, 0.4223542717939795),
+ (&#39;Dario Šarić&#39;, 0.4224706088787507),
+ (&#39;Malik Beasley&#39;, 0.4231905931905932),
+ (&#39;Fred VanVleet&#39;, 0.42373871481678166),
+ (&#39;Miles Bridges&#39;, 0.4243738787226408),
+ (&#39;Enes Kanter&#39;, 0.4243896467296257),
+ (&#39;P.J. Tucker&#39;, 0.42442141623488777),
+ (&#39;Markieff Morris&#39;, 0.4245895788722342),
+ (&#39;Al Horford&#39;, 0.4247743300423131),
+ (&#39;Thaddeus Young&#39;, 0.4248118985126859),
+ (&#39;Donte DiVincenzo&#39;, 0.4258317851714238),
+ (&#39;Cody Zeller&#39;, 0.42611410118406895),
+ (&#39;Danny Green&#39;, 0.42635644987423643),
+ (&#39;Lonzo Ball&#39;, 0.4264988091187479),
+ (&#39;Dillon Brooks&#39;, 0.4265468113975576),
+ (&#39;Aron Baynes&#39;, 0.42702930338655903),
+ (&#39;Marquese Chriss&#39;, 0.427378368918446),
+ (&#39;Alex Len&#39;, 0.4300743678730788),
+ (&#39;Landry Shamet&#39;, 0.43126723686507235),
+ (&#39;Deandre Ayton&#39;, 0.43159326197578524),
+ (&#39;Chris Silva&#39;, 0.4326234906695939),
+ (&#39;Willie Cauley-Stein&#39;, 0.4328526426321316),
+ (&#39;Danuel House&#39;, 0.4329015544041451),
+ (&#34;De&#39;Aaron Fox&#34;, 0.43306322350845944),
+ (&#39;Joel Embiid&#39;, 0.43341325811001413),
+ (&#39;Courtney Lee&#39;, 0.4336530136530136),
+ (&#39;Kyle Korver&#39;, 0.4337426110454315),
+ (&#39;Lou Williams&#39;, 0.43377901902600796),
+ (&#39;Kristaps Porziņģis&#39;, 0.4341991341991342),
+ (&#39;Jahlil Okafor&#39;, 0.43449812861517517),
+ (&#39;P.J. Washington&#39;, 0.4356691783279512),
+ (&#39;Derrick Jones&#39;, 0.437994877424076),
+ (&#39;Taj Gibson&#39;, 0.43857336956521736),
+ (&#34;Royce O&#39;Neale&#34;, 0.4385944743185611),
+ (&#39;Rodney Hood&#39;, 0.4387433155080213),
+ (&#39;Cristiano Felício&#39;, 0.4394488188976378),
+ (&#39;Furkan Korkmaz&#39;, 0.43956276445698167),
+ (&#39;Eric Paschall&#39;, 0.44183059152957654),
+ (&#39;Eric Bledsoe&#39;, 0.44197432866069924),
+ (&#39;Bryn Forbes&#39;, 0.4430012431184515),
+ (&#39;Harrison Barnes&#39;, 0.4462689225289404),
+ (&#39;Cedi Osman&#39;, 0.44637924991237293),
+ (&#39;Marcus Morris&#39;, 0.4466983695652174),
+ (&#39;Jerami Grant&#39;, 0.44670059670059675),
+ (&#39;Paul George&#39;, 0.4472979577587712),
+ (&#39;Tony Snell&#39;, 0.44745182012847956),
+ (&#39;Maxi Kleber&#39;, 0.44758907758907757),
+ (&#39;Will Barton&#39;, 0.4479396279396279),
+ (&#39;Shake Milton&#39;, 0.44825811001410437),
+ (&#39;Terence Davis&#39;, 0.4490387679235262),
+ (&#39;Georges Niang&#39;, 0.44913777118486925),
+ (&#39;Zion Williamson&#39;, 0.4496767608029942),
+ (&#39;Kyle Lowry&#39;, 0.45011152416356875),
+ (&#39;Glenn Robinson&#39;, 0.4508050402520127),
+ (&#39;Goran Dragić&#39;, 0.45111233077204543),
+ (&#39;Derrick Rose&#39;, 0.4525838686652391),
+ (&#39;Kentavious Caldwell-Pope&#39;, 0.4535429392741645),
+ (&#39;Bogdan Bogdanović&#39;, 0.4536242208370436),
+ (&#39;Terrence Ross&#39;, 0.454774204884906),
+ (&#39;Dorian Finney-Smith&#39;, 0.45592407592407586),
+ (&#39;Langston Galloway&#39;, 0.45635974304068533),
+ (&#39;Spencer Dinwiddie&#39;, 0.45661388550548104),
+ (&#39;Kelly Olynyk&#39;, 0.4578119282839371),
+ (&#39;Jakob Pöltl&#39;, 0.4587142603445214),
+ (&#39;Ivica Zubac&#39;, 0.4589980799441438),
+ (&#39;Moritz Wagner&#39;, 0.45928325292901445),
+ (&#39;Matt Thomas&#39;, 0.45964949548592676),
+ (&#39;Robert Covington&#39;, 0.460025706940874),
+ (&#39;Julius Randle&#39;, 0.4606861413043479),
+ (&#39;Mikal Bridges&#39;, 0.46106509914020005),
+ (&#39;Joe Ingles&#39;, 0.46141479695902093),
+ (&#39;Patty Mills&#39;, 0.4619357130172261),
+ (&#39;Mason Plumlee&#39;, 0.4624710424710425),
+ (&#39;Justin Holiday&#39;, 0.4646294681778553),
+ (&#39;Ja Morant&#39;, 0.4646675712347354),
+ (&#39;Kelly Oubre&#39;, 0.4647622389892964),
+ (&#39;Kemba Walker&#39;, 0.4648058761804827),
+ (&#39;Jamal Murray&#39;, 0.4654896454896455),
+ (&#39;Gordon Hayward&#39;, 0.46615599860090945),
+ (&#39;Daniel Theis&#39;, 0.46645680307799925),
+ (&#39;Andrew Wiggins&#39;, 0.4667523564695801),
+ (&#34;D&#39;Angelo Russell&#34;, 0.467532376618831),
+ (&#39;Max Strus&#39;, 0.47052493438320214),
+ (&#39;Eric Mika&#39;, 0.4705342831700802),
+ (&#39;Meyers Leonard&#39;, 0.4707976582510062),
+ (&#39;LaMarcus Aldridge&#39;, 0.47082756171195167),
+ (&#39;Steven Adams&#39;, 0.4712903225806451),
+ (&#39;Isaiah Hartenstein&#39;, 0.47157167530224525),
+ (&#39;Derrick Favors&#39;, 0.47171827152092544),
+ (&#34;Devonte&#39; Graham&#34;, 0.47204879799067095),
+ (&#39;OG Anunoby&#39;, 0.473290847937688),
+ (&#39;Cheick Diallo&#39;, 0.47403930514125286),
+ (&#39;Johnathan Williams&#39;, 0.4741350792556857),
+ (&#39;Larry Nance&#39;, 0.4751840168243953),
+ (&#39;Kevin Love&#39;, 0.477409744128987),
+ (&#39;Nikola Vučević&#39;, 0.47761729045861884),
+ (&#39;Jrue Holiday&#39;, 0.4778768288533514),
+ (&#39;Jaren Jackson&#39;, 0.4787245590230665),
+ (&#39;Terry Rozier&#39;, 0.479178327951202),
+ (&#39;Andre Drummond&#39;, 0.47972162740899366),
+ (&#39;Serge Ibaka&#39;, 0.4802850061957868),
+ (&#39;Jordan Clarkson&#39;, 0.48214160532772526),
+ (&#39;J.J. Redick&#39;, 0.484760122490643),
+ (&#39;Kendrick Nunn&#39;, 0.4851408708379071),
+ (&#39;Nemanja Bjelica&#39;, 0.48756901157613525),
+ (&#39;Danilo Gallinari&#39;, 0.4878801843317973),
+ (&#39;Norman Powell&#39;, 0.4902814657461498),
+ (&#39;Robert Williams&#39;, 0.4908429520811473),
+ (&#39;Ben McLemore&#39;, 0.4910017271157167),
+ (&#39;Tim Hardaway&#39;, 0.49153513153513156),
+ (&#39;Shai Gilgeous-Alexander&#39;, 0.49198156682027644),
+ (&#39;Thomas Bryant&#39;, 0.49289455547898003),
+ (&#39;Jaylen Brown&#39;, 0.4948373557187828),
+ (&#39;Doug McDermott&#39;, 0.4956146469049694),
+ (&#39;George Hill&#39;, 0.4965782806958284),
+ (&#39;Russell Westbrook&#39;, 0.4967357512953367),
+ (&#39;Clint Capela&#39;, 0.49701208981001727),
+ (&#39;Pascal Siakam&#39;, 0.49702248185519565),
+ (&#39;Kawhi Leonard&#39;, 0.49734334089718973),
+ (&#39;Domantas Sabonis&#39;, 0.49768962510898),
+ (&#39;Dwight Powell&#39;, 0.49812853812853813),
+ (&#39;Ben Simmons&#39;, 0.4982510578279266),
+ (&#39;Tony Bradley&#39;, 0.4987409605043575),
+ (&#39;DeMar DeRozan&#39;, 0.4997744627952407),
+ (&#39;JaVale McGee&#39;, 0.5006647502694934),
+ (&#39;Shamorie Ponds&#39;, 0.5008851124092759),
+ (&#39;Bam Adebayo&#39;, 0.5015404317599708),
+ (&#39;Tyler Cook&#39;, 0.5017525411847177),
+ (&#39;Joe Harris&#39;, 0.5026726987993735),
+ (&#39;Dennis Schröder&#39;, 0.5034562211981568),
+ (&#39;Dāvis Bertāns&#39;, 0.5049276361130255),
+ (&#39;Chris Paul&#39;, 0.5063594470046084),
+ (&#39;Karl-Anthony Towns&#39;, 0.5065981148243359),
+ (&#39;Richaun Holmes&#39;, 0.507346393588602),
+ (&#39;Christian Wood&#39;, 0.5094004282655247),
+ (&#39;Jaxson Hayes&#39;, 0.5096393331064988),
+ (&#39;Collin Sexton&#39;, 0.5103259726603575),
+ (&#39;Brandon Ingram&#39;, 0.510806396733583),
+ (&#39;Evan Fournier&#39;, 0.511467228958004),
+ (&#39;Tobias Harris&#39;, 0.5144146685472497),
+ (&#39;Jayson Tatum&#39;, 0.5144735921650927),
+ (&#39;John Konchar&#39;, 0.5159362279511532),
+ (&#39;Seth Curry&#39;, 0.5184115884115885),
+ (&#39;Brandon Clarke&#39;, 0.5188602442333785),
+ (&#39;Damian Jones&#39;, 0.5194166253511816),
+ (&#39;DeAndre Jordan&#39;, 0.5199390986601706),
+ (&#39;Montrezl Harrell&#39;, 0.5206877290975738),
+ (&#39;T.J. Warren&#39;, 0.5215257192676548),
+ (&#39;Jonas Valančiūnas&#39;, 0.5216010854816824),
+ (&#39;Jarrett Allen&#39;, 0.5218635809987819),
+ (&#39;CJ McCollum&#39;, 0.5225401069518716),
+ (&#39;Daniel Gafford&#39;, 0.5227471566054243),
+ (&#39;Bojan Bogdanović&#39;, 0.5231874652327091),
+ (&#39;Luka Dončić&#39;, 0.5233166833166834),
+ (&#39;Khris Middleton&#39;, 0.5233879412261442),
+ (&#39;Trae Young&#39;, 0.5260816393984467),
+ (&#39;Anthony Davis&#39;, 0.5278656126482213),
+ (&#39;Buddy Hield&#39;, 0.5291362422083705),
+ (&#39;John Collins&#39;, 0.5298182118658072),
+ (&#39;Hassan Whiteside&#39;, 0.5329679144385027),
+ (&#39;Devin Booker&#39;, 0.5358238287418846),
+ (&#39;Nerlens Noel&#39;, 0.5366359447004607),
+ (&#39;Nikola Jokić&#39;, 0.5377781677781677),
+ (&#39;Zach LaVine&#39;, 0.5378740157480315),
+ (&#39;Damian Lillard&#39;, 0.5435160427807486),
+ (&#39;Bradley Beal&#39;, 0.544328049620951),
+ (&#39;Donovan Mitchell&#39;, 0.5482588540700908),
+ (&#39;Tacko Fall&#39;, 0.5520986358866737),
+ (&#39;James Harden&#39;, 0.5690328151986184),
+ (&#39;LeBron James&#39;, 0.5711031261228889),
+ (&#39;Dean Wade&#39;, 0.5722783035401331),
+ (&#39;Giannis Antetokounmpo&#39;, 0.5723661543658165),
+ (&#39;Johnathan Motley&#39;, 0.5726182579856869),
+ (&#39;Drew Eubanks&#39;, 0.5749724738057183),
+ (&#39;Duncan Robinson&#39;, 0.5819648737650933),
+ (&#39;Tyson Chandler&#39;, 0.5831088082901554),
+ (&#39;Dwight Howard&#39;, 0.5861731943945383),
+ (&#39;Rudy Gobert&#39;, 0.5938253291303541),
+ (&#39;Mitchell Robinson&#39;, 0.5979144021739131)]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">PlayerShots</span><span class="p">(</span><span class="n">shots_2019</span><span class="p">,</span> <span class="s2">&quot;James Harden&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">efg_pct</span><span class="p">,</span> <span class="n">PlayerShots</span><span class="p">(</span><span class="n">shots_2019</span><span class="p">,</span> <span class="s2">&quot;James Harden&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">aeFG</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(0.53, 0.5690328151986184)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">PlayerShots</span><span class="p">(</span><span class="n">shots_2019</span><span class="p">,</span> <span class="s2">&quot;Duncan Robinson&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">efg_pct</span><span class="p">,</span> <span class="n">PlayerShots</span><span class="p">(</span><span class="n">shots_2019</span><span class="p">,</span> <span class="s2">&quot;Duncan Robinson&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">aeFG</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(0.67, 0.5819648737650933)</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
