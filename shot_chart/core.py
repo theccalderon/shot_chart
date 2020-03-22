@@ -234,45 +234,27 @@ class Shots:
         else:
             return round( (len(dataframe.loc[dataframe['outcome']=='made']) + 0.5 *len(dataframe.loc[(dataframe['outcome']=='made') & (dataframe['attempt']=='3-pointer')]))/len(dataframe),2)
 
-    def __plot_shot_chart(self, dataframe, date_range:Union[str,tuple,int]="all",made:bool=True,missed:bool=True,attempt:str="all", distances:Union[str,List[str]]="all"):
+    def __plot_shot_chart(self, dataframe, made:bool=True,missed:bool=True,attempt:str="all", distances:Union[str,List[str]]="all"):
         plt.figure(figsize=(2 * Config().fig_height/Config().my_dpi, Config().fig_width/Config().my_dpi), dpi=Config().my_dpi)
         plt.subplot(1, 2, 1)
         plt.title("Shot chart")
         img = plt.imread("http://d2p3bygnnzw9w3.cloudfront.net/req/1/images/bbr/nbahalfcourt.png")
         implot = plt.imshow(img, extent=[0,500,0,472])
-        if date_range == "all":
-            shots_df = dataframe
-        elif type(date_range) == int:
-            #means month
-            shots_df = dataframe.loc[dataframe["month"]==date_range]
-        else:
-            #custom date range in the form of ((from_y,from_m,from_d),(to_y,to_m,to_d))
-            #this needs work
-#             from_index = dataframe.loc[(dataframe["year"]==date_range[0][0]) & (dataframe["month"]==date_range[0][1]) & (dataframe["day"]==date_range[0][2])].index[0]
-#             to_index = dataframe.loc[(dataframe["year"]==date_range[1][0]) & (dataframe["month"]==date_range[1][1]) & (dataframe["day"]==date_range[1][2])].index[-1]
-
-            #create datetime column
-#             dataframe['Timestamp'] = dataframe.apply(lambda row: pd.to_datetime(row.year, row.month, row.day), axis=1)
-            # converts to pandas timestamps if desired
-            dataframe['Timestamp'] = pd.to_datetime(dataframe.loc[:][['year','month','day']])
-            # Create a DatetimeIndex and assign it to the dataframe.
-            dataframe.index = pd.DatetimeIndex(dataframe.Timestamp)
-            shots_df = dataframe.loc[str(str(date_range[0][0])+"-"+str(date_range[0][1])+"-"+str(date_range[0][2])):str(str(date_range[1][0])+"-"+str(date_range[1][1])+"-"+str(date_range[1][2]))]
         if attempt == "2-pointer":
             if distances == "all":
-                shots_df = shots_df.loc[shots_df["attempt"]=="2-pointer"]
+                shots_df = dataframe.loc[dataframe["attempt"]=="2-pointer"]
             else:
-                shots_df = shots_df.loc[(shots_df["attempt"]=="2-pointer") & (shots_df["distance"].isin(distances))]
+                shots_df = dataframe.loc[(dataframe["attempt"]=="2-pointer") & (dataframe["distance"].isin(distances))]
         elif attempt == "3-pointer":
             if distances == "all":
-                shots_df = shots_df.loc[shots_df["attempt"]=="3-pointer"]
+                shots_df = dataframe.loc[dataframe["attempt"]=="3-pointer"]
             else:
-                shots_df = shots_df.loc[(shots_df["attempt"]=="2-pointer") & (shots_df["distance"].isin(distances))]
+                shots_df = dataframe.loc[(dataframe["attempt"]=="2-pointer") & (dataframe["distance"].isin(distances))]
         else:
             if distances == "all":
-                shots_df = shots_df
+                shots_df = dataframe
             else:
-                shots_df = shots_df.loc[shots_df["distance"].isin(distances)]
+                shots_df = dataframe.loc[dataframe["distance"].isin(distances)]
         #misses vs made
         if made:
             mades_df = shots_df.loc[shots_df['outcome']=='made']
@@ -302,12 +284,29 @@ class Shots:
                 ax.text(30 + 12, 1, "Metrics:\n FG%: "+str(fg_pct)+"\n eFG%: "+str(efg_pct), bbox=dict(facecolor='red', alpha=0.5))
         return
 
+    def list_game_ids(self,year,month,day):
+        "Lists unique game ids in `dataframe` for a given date"
+        return self.dataframe.loc[(self.dataframe['year']==year) & (self.dataframe['month']==month) & (self.dataframe['day']==day)][['game_id','winner','loser']].drop_duplicates()
+
     @delegates(__plot_shot_chart)
-    def plot_shots(self,**kwargs):
+    def plot_shots(self,date_range:Union[str,tuple,int]="all",**kwargs):
         "Plots the shot chart for a given `date_range` including `made`, `missed` and `attempt` shots within `distances`"
         #use kwargs
-        self.__plot_shot_chart(self.dataframe, **kwargs)
-        self.__plot_scatter_volume(self.dataframe, self.__calculate_metric(self.dataframe, "fg"), self.__calculate_metric(self.dataframe, "efg"))
+        if date_range == "all":
+            shots_df = self.dataframe
+        elif type(date_range) == str:
+            shots_df = self.dataframe.loc[self.dataframe['game_id']==date_range]
+        elif type(date_range) == int:
+            #means month
+            shots_df = self.dataframe.loc[self.dataframe["month"]==date_range]
+        else:
+            copy_df = self.dataframe.copy()
+            copy_df['Timestamp'] = pd.to_datetime(copy_df.loc[:][['year','month','day']])
+            # Create a DatetimeIndex and assign it to the dataframe.
+            copy_df.index = pd.DatetimeIndex(copy_df.Timestamp)
+            shots_df = copy_df.loc[str(str(date_range[0][0])+"-"+str(date_range[0][1])+"-"+str(date_range[0][2])):str(str(date_range[1][0])+"-"+str(date_range[1][1])+"-"+str(date_range[1][2]))]
+        self.__plot_shot_chart(shots_df, **kwargs)
+        self.__plot_scatter_volume(shots_df, self.__calculate_metric(self.dataframe, "fg"), self.__calculate_metric(self.dataframe, "efg"))
         plt.show()
 
     @delegates(__plot_shot_chart)
@@ -383,11 +382,8 @@ def list_game_ids(dataframe,year,month,day):
 # Cell
 class TeamShots(Shots):
     "Team shots"
-    def __init__(self, dataframe, team, game_id=None):
-        if game_id:
-            dataframe = dataframe.loc[(dataframe['team']==team) & (dataframe['game_id']==game_id)].copy()
-        else:
-            dataframe = dataframe.loc[dataframe['team']==team].copy()
+    def __init__(self, dataframe, team):
+        dataframe = dataframe.loc[dataframe['team']==team].copy()
         self.team = team
         super().__init__(dataframe)
 
@@ -400,9 +396,6 @@ def list_team_players(dataframe, team):
 class PlayerShots(Shots):
     "Player shots"
     def __init__(self, dataframe, player, game_id = None):
-        if game_id:
-            dataframe = dataframe.loc[(dataframe['shots_by']==player) & (dataframe['game_id']==game_id)].copy()
-        else:
-            dataframe = dataframe.loc[dataframe['shots_by']==player].copy()
+        dataframe = dataframe.loc[dataframe['shots_by']==player].copy()
         self.player = player
         super().__init__(dataframe)
