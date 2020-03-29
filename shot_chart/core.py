@@ -234,6 +234,12 @@ class Shots:
         else:
             return round( (len(dataframe.loc[dataframe['outcome']=='made']) + 0.5 *len(dataframe.loc[(dataframe['outcome']=='made') & (dataframe['attempt']=='3-pointer')]))/len(dataframe),2)
 
+    def calculate_metric(self, dataframe, metric="efg"):
+        if metric == "fg":
+            return round(len(dataframe.loc[dataframe['outcome']=='made'])/len(dataframe),2)
+        else:
+            return round( (len(dataframe.loc[dataframe['outcome']=='made']) + 0.5 *len(dataframe.loc[(dataframe['outcome']=='made') & (dataframe['attempt']=='3-pointer')]))/len(dataframe),2)
+
     def __plot_shot_chart(self, dataframe, made:bool=True,missed:bool=True,attempt:str="all", distances:Union[str,List[str]]="all"):
         plt.figure(figsize=(2 * Config().fig_height/Config().my_dpi, Config().fig_width/Config().my_dpi), dpi=Config().my_dpi)
         plt.subplot(1, 2, 1)
@@ -269,7 +275,7 @@ class Shots:
             ys = [self.__Y_MODIFIER - int(x) for x in ys]
             xs = misses_df['y'].apply(lambda x: int(x.split("px")[0])).to_list()
             xs = [x + self.__X_MODIFIER for x in xs]
-            plt.scatter(xs,ys,marker="x", color="r",alpha=.5)
+            plt.scatter(xs,ys,marker="x", color="r",alpha=.3)
         return
 
     def __plot_scatter_volume(self, dataframe, fg_pct:float, efg_pct:float, most_or_least:str=None, final_distance:str=None, final_attempt:str=None,made:bool=True,missed:bool=True):
@@ -310,19 +316,34 @@ class Shots:
         plt.show()
 
     @delegates(__plot_shot_chart)
-    def plot_effective(self, most_or_least="most",metric:str="efg", exclude:Union[str,List["str"]]="none", **kwargs):
-        "Plots the shot chart based on `most_or_least` considering a given `metric` for `date_range` including `made`, `missed` and `attempt` shots within `distances`. You can optionally `exclude` some shots."
-        distances = ["0ft","1ft","2ft","3ft","4ft","5ft","6ft","7ft","8ft","9ft","10ft","11ft","12ft","13ft","14ft","15ft","16ft","17ft","18ft","19ft","20ft","21ft","22ft","23ft","24ft","25ft","26ft","27ft","28ft","29ft","30ft"]
+    def plot_effective(self, most_or_least="most",metric:str="efg", min_shots:Union[str,int]="none", exclude:Union[str,List["str"]]="none", **kwargs):
+        "Plots the shot chart based on `most_or_least` considering a given `metric` for `date_range` including `made`, `missed` and `attempt` shots within `distances`. You can optionally `exclude` some shots. The `min_shots` option lets you filter based on a minimum ammount of shots taken per distance, auto == uniform distribution [0ft,29ft] as tracked by https://stats.nba.com/players/shooting/?sort=25-29%20ft.%20FGA&dir=1&Season=2019-20&SeasonType=Regular%20Season&CF=PLAYER_NAME*E*"
+        distances = ["0ft","1ft","2ft","3ft","4ft","5ft","6ft","7ft","8ft","9ft","10ft","11ft","12ft","13ft","14ft","15ft","16ft","17ft","18ft","19ft","20ft","21ft","22ft","23ft","24ft","25ft","26ft","27ft","28ft"]
         distances = set(distances).intersection(set(self.dataframe['distance'].drop_duplicates().to_list()))
         if type(exclude) == list:
             distances = list(set(distances) - set(exclude))
+        #if auto, use uniform distro
+        if min_shots == "none":
+            new_df = self.dataframe
+        elif min_shots == "auto":
+            min_value = round(len(self.dataframe)/30,0) # [0ft, 29ft]
+            new_df = pd.DataFrame(columns = self.dataframe.columns)
+            for distance in distances:
+                if len(self.dataframe.loc[self.dataframe['distance']==distance]) >= min_value:
+                    new_df = new_df.append(self.dataframe.loc[self.dataframe['distance']==distance])
+        else:
+            min_value = min_shots
+            new_df = pd.DataFrame(columns = self.dataframe.columns)
+            for distance in distances:
+                if len(self.dataframe.loc[self.dataframe['distance']==distance]) >= min_value:
+                    new_df = new_df.append(self.dataframe.loc[self.dataframe['distance']==distance])
         if most_or_least == "most":
             max_fg = -1
             max_efg = -1
             final_distance = ""
             for attempt in ["2-pointer", "3-pointer"]:
                 for distance in distances:
-                    player_df = self.dataframe.loc[(self.dataframe["distance"]==distance) & (self.dataframe["attempt"]==attempt)]
+                    player_df = new_df.loc[(new_df["distance"]==distance) & (new_df["attempt"]==attempt)]
                     if len(player_df) == 0:
                         continue
                     fg_pct = self.__calculate_metric(player_df, "fg")
@@ -345,7 +366,7 @@ class Shots:
             final_distance = ""
             for attempt in ["2-pointer", "3-pointer"]:
                 for distance in distances:
-                    player_df = self.dataframe.loc[(self.dataframe["distance"]==distance) & (self.dataframe["attempt"]==attempt)]
+                    player_df = new_df.loc[(new_df["distance"]==distance) & (new_df["attempt"]==attempt)]
                     if len(player_df) == 0:
                         continue
                     fg_pct = self.__calculate_metric(player_df, "fg")
@@ -362,7 +383,7 @@ class Shots:
                             max_efg = efg_pct
                             final_distance = distance
                             final_attempt = attempt
-        player_df = self.dataframe.loc[(self.dataframe["distance"]==final_distance) & (self.dataframe["attempt"] == final_attempt)]
+        player_df = new_df.loc[(new_df["distance"]==final_distance) & (new_df["attempt"] == final_attempt)]
         self.__plot_shot_chart(player_df, **kwargs)
         all_shots = self.dataframe
         self.__plot_scatter_volume(all_shots, fg_pct=max_fg, efg_pct=max_efg, most_or_least=most_or_least, final_distance=final_distance, final_attempt=final_attempt)
@@ -396,12 +417,7 @@ def list_team_players(dataframe, team):
 class PlayerShots(Shots):
     "Player shots"
     def __init__(self, dataframe, player):
-        self.team_total_shots = len(dataframe.loc[dataframe['team']==dataframe.loc[dataframe['shots_by']==player]['team'].to_list()[0]])
+        self.team_total_shots = len(dataframe.loc[dataframe['team'] == dataframe.loc[dataframe['shots_by']==player]['team'].to_list()[0]])
         dataframe = dataframe.loc[dataframe['shots_by']==player].copy()
         self.player = player
         super().__init__(dataframe)
-
-    @property
-    def aeFG(self):
-        "Accounts for volume. Follows Dean O's principle for off rating increase based on number of possesions from Basketball on Paper"
-        return round(self.efg_pct + len(self.dataframe)/self.team_total_shots - 0.20, 2)
