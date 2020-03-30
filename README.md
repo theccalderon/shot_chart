@@ -187,8 +187,6 @@ list_team_players(shots_2019, 'Portland')
 
 
 
-Note how the game_id format is YYYYMMDD0WIN
-
 ## Plotting team shot distribution
 
 ```python
@@ -200,7 +198,7 @@ houston.plot_shots()
 ```
 
 
-![png](docs/images/output_13_0.png)
+![png](docs/images/output_12_0.png)
 
 
 ```python
@@ -208,7 +206,7 @@ houston.plot_shots(date_range=((2020,1,3), (2020,1,11)))
 ```
 
 
-![png](docs/images/output_14_0.png)
+![png](docs/images/output_13_0.png)
 
 
 Please check the extra options when using the plotting functions
@@ -265,7 +263,7 @@ portland_20191125.plot_shots("201911250CHI")
 ```
 
 
-![png](docs/images/output_18_0.png)
+![png](docs/images/output_17_0.png)
 
 
 ## Plotting player shot distribution
@@ -279,7 +277,7 @@ player_shots.plot_shots()
 ```
 
 
-![png](docs/images/output_21_0.png)
+![png](docs/images/output_20_0.png)
 
 
 ```python
@@ -291,7 +289,7 @@ dlo.plot_shots()
 ```
 
 
-![png](docs/images/output_23_0.png)
+![png](docs/images/output_22_0.png)
 
 
 ```python
@@ -299,7 +297,7 @@ dlo.plot_shots(distances=["16ft","17ft","18ft","19ft","20ft","21ft","22ft","23ft
 ```
 
 
-![png](docs/images/output_24_0.png)
+![png](docs/images/output_23_0.png)
 
 
 ```python
@@ -307,7 +305,7 @@ dlo.plot_effective(most_or_least="most")
 ```
 
 
-![png](docs/images/output_25_0.png)
+![png](docs/images/output_24_0.png)
 
 
 ```python
@@ -315,7 +313,7 @@ dlo.plot_effective(most_or_least="most",exclude=["0ft"])
 ```
 
 
-![png](docs/images/output_26_0.png)
+![png](docs/images/output_25_0.png)
 
 
 ```python
@@ -323,7 +321,7 @@ dlo.plot_effective(most_or_least="most",min_shots="auto",exclude=['2ft'])
 ```
 
 
-![png](docs/images/output_27_0.png)
+![png](docs/images/output_26_0.png)
 
 
 ```python
@@ -331,7 +329,7 @@ dlo.plot_effective(most_or_least="least")
 ```
 
 
-![png](docs/images/output_28_0.png)
+![png](docs/images/output_27_0.png)
 
 
 ```python
@@ -339,5 +337,5 @@ dlo.plot_effective(most_or_least="least",min_shots="auto")
 ```
 
 
-![png](docs/images/output_29_0.png)
+![png](docs/images/output_28_0.png)
 
