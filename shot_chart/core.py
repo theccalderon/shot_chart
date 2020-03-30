@@ -278,12 +278,15 @@ class Shots:
             plt.scatter(xs,ys,marker="x", color="r",alpha=.3)
         return
 
-    def __plot_scatter_volume(self, dataframe, fg_pct:float, efg_pct:float, most_or_least:str=None, final_distance:str=None, final_attempt:str=None,made:bool=True,missed:bool=True):
+    def __plot_hist_volume(self, dataframe, fg_pct:float, efg_pct:float, most_or_least:str=None, final_distance:str=None, final_attempt:str=None,made:bool=True,missed:bool=True):
         if made:
             ax = plt.subplot(1, 2, 2)
             plt.title("Shot distribution - all distances")
             distances_all_shots = dataframe['distance'].apply(lambda x: int(x.split('ft')[0])).to_list()
-            plt.hist(distances_all_shots, bins = range( 0, max(distances_all_shots)+1, 1), align="left")
+            make_shots = dataframe.loc[dataframe['outcome']=='made']['distance'].apply(lambda x: int(x.split('ft')[0])).to_list()
+            shots_to_plot = [make_shots,distances_all_shots]
+            plt.hist(shots_to_plot, bins = range( 0, max(distances_all_shots)+1, 1), align="left",stacked=True, label=['made','all'], color=['green', '#ff7f0e'])
+            plt.legend(loc="upper center")
             if most_or_least and final_distance and final_attempt:
                 ax.text(30 + 12, 1, most_or_least+" effective shot: "+str(final_distance)+"\n Attempt: "+final_attempt+"\n\nMetrics:\n FG%: "+str(fg_pct)+"\n eFG%: "+str(efg_pct), bbox=dict(facecolor='red', alpha=0.5))
             else:
@@ -312,7 +315,7 @@ class Shots:
             copy_df.index = pd.DatetimeIndex(copy_df.Timestamp)
             shots_df = copy_df.loc[str(str(date_range[0][0])+"-"+str(date_range[0][1])+"-"+str(date_range[0][2])):str(str(date_range[1][0])+"-"+str(date_range[1][1])+"-"+str(date_range[1][2]))]
         self.__plot_shot_chart(shots_df, **kwargs)
-        self.__plot_scatter_volume(shots_df, self.__calculate_metric(self.dataframe, "fg"), self.__calculate_metric(self.dataframe, "efg"))
+        self.__plot_hist_volume(shots_df, self.__calculate_metric(self.dataframe, "fg"), self.__calculate_metric(self.dataframe, "efg"))
         plt.show()
 
     @delegates(__plot_shot_chart)
@@ -386,7 +389,7 @@ class Shots:
         player_df = new_df.loc[(new_df["distance"]==final_distance) & (new_df["attempt"] == final_attempt)]
         self.__plot_shot_chart(player_df, **kwargs)
         all_shots = self.dataframe
-        self.__plot_scatter_volume(all_shots, fg_pct=max_fg, efg_pct=max_efg, most_or_least=most_or_least, final_distance=final_distance, final_attempt=final_attempt)
+        self.__plot_hist_volume(all_shots, fg_pct=max_fg, efg_pct=max_efg, most_or_least=most_or_least, final_distance=final_distance, final_attempt=final_attempt)
         plt.show()
 
 # Cell
