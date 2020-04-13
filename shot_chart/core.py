@@ -208,8 +208,8 @@ class Shots:
     "Plots shot chart and most/least effective shots using `plot_shots` and `plot_effective`"
     def __init__(self, dataframe):
         self.dataframe = dataframe
-        self.__X_MODIFIER = 8
-        self.__Y_MODIFIER = 466
+        self.__X_MODIFIER = 10
+        self.__Y_MODIFIER = 454
 
 
     @property
@@ -229,53 +229,60 @@ class Shots:
         return self.__calculate_metric(self.dataframe,"efg")
 
     def __calculate_metric(self, dataframe, metric="efg"):
+        if len(dataframe)==0:
+            return 0
         if metric == "fg":
             return round(len(dataframe.loc[dataframe['outcome']=='made'])/len(dataframe),2)
         else:
             return round( (len(dataframe.loc[dataframe['outcome']=='made']) + 0.5 *len(dataframe.loc[(dataframe['outcome']=='made') & (dataframe['attempt']=='3-pointer')]))/len(dataframe),2)
 
-    def calculate_metric(self, dataframe, metric="efg"):
-        if metric == "fg":
-            return round(len(dataframe.loc[dataframe['outcome']=='made'])/len(dataframe),2)
+    def __plot_shot_chart(self, dataframe, metric:str="efg",attempt:str="all", distance_limit:Union[int,tuple]=29):
+        if type(distance_limit) == int:
+            distances = [str(x)+"ft" for x in range(distance_limit+1)]
         else:
-            return round( (len(dataframe.loc[dataframe['outcome']=='made']) + 0.5 *len(dataframe.loc[(dataframe['outcome']=='made') & (dataframe['attempt']=='3-pointer')]))/len(dataframe),2)
-
-    def __plot_shot_chart(self, dataframe, made:bool=True,missed:bool=True,attempt:str="all", distances:Union[str,List[str]]="all"):
+            distances = [str(x)+"ft" for x in range(distance_limit[0],distance_limit[1]+1)]
         plt.figure(figsize=(2 * Config().fig_height/Config().my_dpi, Config().fig_width/Config().my_dpi), dpi=Config().my_dpi)
-        plt.subplot(1, 2, 1)
+        ax = plt.subplot(1, 2, 1)
         plt.title("Shot chart")
         img = plt.imread("http://d2p3bygnnzw9w3.cloudfront.net/req/1/images/bbr/nbahalfcourt.png")
         implot = plt.imshow(img, extent=[0,500,0,472])
         if attempt == "2-pointer":
-            if distances == "all":
-                shots_df = dataframe.loc[dataframe["attempt"]=="2-pointer"]
-            else:
                 shots_df = dataframe.loc[(dataframe["attempt"]=="2-pointer") & (dataframe["distance"].isin(distances))]
         elif attempt == "3-pointer":
-            if distances == "all":
-                shots_df = dataframe.loc[dataframe["attempt"]=="3-pointer"]
-            else:
-                shots_df = dataframe.loc[(dataframe["attempt"]=="2-pointer") & (dataframe["distance"].isin(distances))]
+                shots_df = dataframe.loc[(dataframe["attempt"]=="3-pointer") & (dataframe["distance"].isin(distances))]
         else:
-            if distances == "all":
-                shots_df = dataframe
-            else:
-                shots_df = dataframe.loc[dataframe["distance"].isin(distances)]
-        #misses vs made
-        if made:
-            mades_df = shots_df.loc[shots_df['outcome']=='made']
-            ys = mades_df['x'].apply(lambda x: x.split("px")[0]).to_list()
+            shots_df = dataframe
+        if len(shots_df) > 200:
+#         print(len(shots_df))
+            ys = shots_df['x'].apply(lambda x: x.split("px")[0]).to_list()
             ys = [self.__Y_MODIFIER - int(x) for x in ys]
-            xs = mades_df['y'].apply(lambda x: int(x.split("px")[0])).to_list()
+            xs = shots_df['y'].apply(lambda x: int(x.split("px")[0])).to_list()
             xs = [x + self.__X_MODIFIER for x in xs]
-            plt.scatter(xs,ys, color="g",alpha=1)
-        if missed:
-            misses_df = shots_df.loc[shots_df['outcome']=='missed']
-            ys = misses_df['x'].apply(lambda x: x.split("px")[0]).to_list()
+            mycmap = plt.cm.Reds
+            mycmap._init()
+            mycmap._lut[:,-1] = np.linspace(0, 0.8, 256+3)
+            plt.hexbin(xs, ys, gridsize=(50,47), bins='log',cmap=mycmap)
+    #         cb = plt.colorbar(label='count in bin')
+        else:
+            made_df = shots_df.loc[shots_df['outcome']=="made"]
+            missed_df = shots_df.loc[shots_df['outcome']=="missed"]
+            ys = made_df['x'].apply(lambda x: x.split("px")[0]).to_list()
             ys = [self.__Y_MODIFIER - int(x) for x in ys]
-            xs = misses_df['y'].apply(lambda x: int(x.split("px")[0])).to_list()
+            xs = made_df['y'].apply(lambda x: int(x.split("px")[0])).to_list()
             xs = [x + self.__X_MODIFIER for x in xs]
-            plt.scatter(xs,ys,marker="x", color="r",alpha=.3)
+#             if most_or_least == 'most':
+            plt.scatter(xs, ys,c='g',marker='o',s=10, alpha=1)
+#             else:
+#                 plt.scatter(xs, ys,c='g',marker='o',s=10, alpha=0.2)
+            ys = missed_df['x'].apply(lambda x: x.split("px")[0]).to_list()
+            ys = [self.__Y_MODIFIER - int(x) for x in ys]
+            xs = missed_df['y'].apply(lambda x: int(x.split("px")[0])).to_list()
+            xs = [x + self.__X_MODIFIER for x in xs]
+#             if most_or_least == 'least':
+#                 plt.scatter(xs, ys,c='g',marker='o',s=10, alpha=1)
+#             else:
+            plt.scatter(xs, ys,c='orange',marker='x',s=10, alpha=0.5)
+#             plt.scatter(xs, ys,c='orange',marker='x',s=10)
         return
 
     def __plot_hist_volume(self, dataframe, fg_pct:float, efg_pct:float, most_or_least:str=None, final_distance:str=None, final_attempt:str=None,made:bool=True,missed:bool=True):
