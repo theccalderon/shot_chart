@@ -12,13 +12,13 @@ This file will become your README and also the index of your documentation.
 
 We first create a pandas dataframe from the source data.
 
-```python
+```
 shots_2019 = make_df(untar_data(URLs.SHOTS_2019))
 ```
 
 ## Listing teams for the season
 
-```python
+```
 list_teams(shots_2019)
 ```
 
@@ -61,7 +61,7 @@ list_teams(shots_2019)
 
 ## Listing players who took at least 1 shot for a particular team
 
-```python
+```
 list_team_players(shots_2019, 'Portland')
 ```
 
@@ -189,11 +189,11 @@ list_team_players(shots_2019, 'Portland')
 
 ## Plotting team shot distribution
 
-```python
+```
 houston = TeamShots(shots_2019,"Houston")
 ```
 
-```python
+```
 houston.plot_shots()
 ```
 
@@ -201,7 +201,7 @@ houston.plot_shots()
 ![png](docs/images/output_12_0.png)
 
 
-```python
+```
 houston.plot_shots(date_range=((2020,1,3), (2020,1,11)))
 ```
 
@@ -211,11 +211,11 @@ houston.plot_shots(date_range=((2020,1,3), (2020,1,11)))
 
 Please check the extra options when using the plotting functions
 
-```python
+```
 portland_20191125 = TeamShots(shots_2019,"Portland")
 ```
 
-```python
+```
 portland_20191125.list_game_ids(2019,11,25)
 ```
 
@@ -258,7 +258,7 @@ portland_20191125.list_game_ids(2019,11,25)
 
 
 
-```python
+```
 portland_20191125.plot_shots("201911250CHI")
 ```
 
@@ -268,11 +268,11 @@ portland_20191125.plot_shots("201911250CHI")
 
 ## Plotting player shot distribution
 
-```python
+```
 player_shots = PlayerShots(shots_2019,"Anthony Davis")
 ```
 
-```python
+```
 player_shots.plot_shots()
 ```
 
@@ -280,11 +280,11 @@ player_shots.plot_shots()
 ![png](docs/images/output_20_0.png)
 
 
-```python
+```
 dlo = PlayerShots(shots_2019,"D'Angelo Russell")
 ```
 
-```python
+```
 dlo.plot_shots()
 ```
 
@@ -292,46 +292,50 @@ dlo.plot_shots()
 ![png](docs/images/output_22_0.png)
 
 
-```python
-dlo.plot_shots(distances=["16ft","17ft","18ft","19ft","20ft","21ft","22ft","23ft","24ft","25ft","26ft"],attempt="2-pointer")
+```
+dlo.plot_shots(distance_limit=(16,26),attempt="2-pointer")
 ```
 
 
-    ---------------------------------------------------------------------------
-
-    TypeError                                 Traceback (most recent call last)
-
-    <ipython-input-15-4caf41d52382> in <module>
-    ----> 1 dlo.plot_shots(distances=["16ft","17ft","18ft","19ft","20ft","21ft","22ft","23ft","24ft","25ft","26ft"],attempt="2-pointer")
-    
-
-    ~/DEV/shot_chart/shot_chart/core.py in plot_shots(self, date_range, **kwargs)
-        322             copy_df.index = pd.DatetimeIndex(copy_df.Timestamp)
-        323             shots_df = copy_df.loc[str(str(date_range[0][0])+"-"+str(date_range[0][1])+"-"+str(date_range[0][2])):str(str(date_range[1][0])+"-"+str(date_range[1][1])+"-"+str(date_range[1][2]))]
-    --> 324         self.__plot_shot_chart(shots_df, **kwargs)
-        325         self.__plot_hist_volume(shots_df, self.__calculate_metric(self.dataframe, "fg"), self.__calculate_metric(self.dataframe, "efg"))
-        326         plt.show()
+![png](docs/images/output_23_0.png)
 
 
-    TypeError: __plot_shot_chart() got an unexpected keyword argument 'distances'
-
-
-```python
+```
 dlo.plot_effective(most_or_least="most")
 ```
 
-```python
+
+![png](docs/images/output_24_0.png)
+
+
+```
 dlo.plot_effective(most_or_least="most",exclude=["0ft"])
 ```
 
-```python
+
+![png](docs/images/output_25_0.png)
+
+
+```
 dlo.plot_effective(most_or_least="most",min_shots="auto",exclude=['2ft'])
 ```
 
-```python
+
+![png](docs/images/output_26_0.png)
+
+
+```
 dlo.plot_effective(most_or_least="least")
 ```
 
-```python
+
+![png](docs/images/output_27_0.png)
+
+
+```
 dlo.plot_effective(most_or_least="least",min_shots="auto")
 ```
+
+
+![png](docs/images/output_28_0.png)
+
