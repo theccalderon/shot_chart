@@ -297,45 +297,41 @@ dlo.plot_shots(distances=["16ft","17ft","18ft","19ft","20ft","21ft","22ft","23ft
 ```
 
 
-![png](docs/images/output_23_0.png)
+    ---------------------------------------------------------------------------
+
+    TypeError                                 Traceback (most recent call last)
+
+    <ipython-input-15-4caf41d52382> in <module>
+    ----> 1 dlo.plot_shots(distances=["16ft","17ft","18ft","19ft","20ft","21ft","22ft","23ft","24ft","25ft","26ft"],attempt="2-pointer")
+    
+
+    ~/DEV/shot_chart/shot_chart/core.py in plot_shots(self, date_range, **kwargs)
+        322             copy_df.index = pd.DatetimeIndex(copy_df.Timestamp)
+        323             shots_df = copy_df.loc[str(str(date_range[0][0])+"-"+str(date_range[0][1])+"-"+str(date_range[0][2])):str(str(date_range[1][0])+"-"+str(date_range[1][1])+"-"+str(date_range[1][2]))]
+    --> 324         self.__plot_shot_chart(shots_df, **kwargs)
+        325         self.__plot_hist_volume(shots_df, self.__calculate_metric(self.dataframe, "fg"), self.__calculate_metric(self.dataframe, "efg"))
+        326         plt.show()
+
+
+    TypeError: __plot_shot_chart() got an unexpected keyword argument 'distances'
 
 
 ```python
 dlo.plot_effective(most_or_least="most")
 ```
 
-
-![png](docs/images/output_24_0.png)
-
-
 ```python
 dlo.plot_effective(most_or_least="most",exclude=["0ft"])
 ```
-
-
-![png](docs/images/output_25_0.png)
-
 
 ```python
 dlo.plot_effective(most_or_least="most",min_shots="auto",exclude=['2ft'])
 ```
 
-
-![png](docs/images/output_26_0.png)
-
-
 ```python
 dlo.plot_effective(most_or_least="least")
 ```
 
-
-![png](docs/images/output_27_0.png)
-
-
 ```python
 dlo.plot_effective(most_or_least="least",min_shots="auto")
 ```
-
-
-![png](docs/images/output_28_0.png)
-
