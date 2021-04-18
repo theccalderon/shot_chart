@@ -94,6 +94,7 @@ class URLs():
     SHOTS_2017    = f'{S3}shots-2017.tgz'
     SHOTS_2018    = f'{S3}shots-2018.tgz'
     SHOTS_2019    = f'{S3}shots-2019.tgz'
+    SHOTS_2020    = f'{S3}shots-2020.tgz'
 
     def path(url, c_key='archive'):
         fname = url.split('/')[-1]
