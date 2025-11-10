@@ -114,51 +114,7 @@ houston = TeamShots(shots_2019,"Houston")
 houston.plot_shots()
 ```
 
-    ValueError: Please open the URL for reading and pass the result to Pillow, e.g. with ``np.array(PIL.Image.open(urllib.request.urlopen(url)))``.
-    [31m---------------------------------------------------------------------------[39m
-    [31mValueError[39m                                Traceback (most recent call last)
-    [36mCell[39m[36m [39m[32mIn[6][39m[32m, line 1[39m
-    [32m----> [39m[32m1[39m [43mhouston[49m[43m.[49m[43mplot_shots[49m[43m([49m[43m)[49m
-
-    [36mFile [39m[32m~/DEV/shot_chart/shot_chart/core.py:325[39m, in [36mShots.plot_shots[39m[34m(self, date_range, **kwargs)[39m
-    [32m    323[39m     copy_df.index = pd.DatetimeIndex(copy_df.Timestamp)
-    [32m    324[39m     shots_df = copy_df.loc[[38;5;28mstr[39m([38;5;28mstr[39m(date_range[[32m0[39m][[32m0[39m])+[33m"[39m[33m-[39m[33m"[39m+[38;5;28mstr[39m(date_range[[32m0[39m][[32m1[39m])+[33m"[39m[33m-[39m[33m"[39m+[38;5;28mstr[39m(date_range[[32m0[39m][[32m2[39m])):[38;5;28mstr[39m([38;5;28mstr[39m(date_range[[32m1[39m][[32m0[39m])+[33m"[39m[33m-[39m[33m"[39m+[38;5;28mstr[39m(date_range[[32m1[39m][[32m1[39m])+[33m"[39m[33m-[39m[33m"[39m+[38;5;28mstr[39m(date_range[[32m1[39m][[32m2[39m]))]
-    [32m--> [39m[32m325[39m [38;5;28;43mself[39;49m[43m.[49m[43m__plot_shot_chart[49m[43m([49m[43mshots_df[49m[43m,[49m[43m [49m[43m*[49m[43m*[49m[43mkwargs[49m[43m)[49m
-    [32m    326[39m [38;5;28mself[39m.__plot_hist_volume(shots_df, [38;5;28mself[39m.__calculate_metric([38;5;28mself[39m.dataframe, [33m"[39m[33mfg[39m[33m"[39m), [38;5;28mself[39m.__calculate_metric([38;5;28mself[39m.dataframe, [33m"[39m[33mefg[39m[33m"[39m))
-    [32m    327[39m plt.show()
-
-    [36mFile [39m[32m~/DEV/shot_chart/shot_chart/core.py:248[39m, in [36mShots.__plot_shot_chart[39m[34m(self, dataframe, metric, attempt, distance_limit)[39m
-    [32m    246[39m ax = plt.subplot([32m1[39m, [32m2[39m, [32m1[39m)
-    [32m    247[39m plt.title([33m"[39m[33mShot chart[39m[33m"[39m)
-    [32m--> [39m[32m248[39m img = [43mplt[49m[43m.[49m[43mimread[49m[43m([49m[33;43m"[39;49m[33;43mhttp://d2p3bygnnzw9w3.cloudfront.net/req/1/images/bbr/nbahalfcourt.png[39;49m[33;43m"[39;49m[43m)[49m
-    [32m    249[39m implot = plt.imshow(img, extent=[[32m0[39m,[32m500[39m,[32m0[39m,[32m472[39m])
-    [32m    250[39m [38;5;28;01mif[39;00m attempt == [33m"[39m[33m2-pointer[39m[33m"[39m:
-
-    [36mFile [39m[32m~/anaconda3/envs/clean_shot_chart/lib/python3.13/site-packages/matplotlib/pyplot.py:2614[39m, in [36mimread[39m[34m(fname, format)[39m
-    [32m   2610[39m [38;5;129m@_copy_docstring_and_deprecators[39m(matplotlib.image.imread)
-    [32m   2611[39m [38;5;28;01mdef[39;00m[38;5;250m [39m[34mimread[39m(
-    [32m   2612[39m         fname: [38;5;28mstr[39m | pathlib.Path | BinaryIO, [38;5;28mformat[39m: [38;5;28mstr[39m | [38;5;28;01mNone[39;00m = [38;5;28;01mNone[39;00m
-    [32m   2613[39m ) -> np.ndarray:
-    [32m-> [39m[32m2614[39m     [38;5;28;01mreturn[39;00m [43mmatplotlib[49m[43m.[49m[43mimage[49m[43m.[49m[43mimread[49m[43m([49m[43mfname[49m[43m,[49m[43m [49m[38;5;28;43mformat[39;49m[43m)[49m
-
-    [36mFile [39m[32m~/anaconda3/envs/clean_shot_chart/lib/python3.13/site-packages/matplotlib/image.py:1515[39m, in [36mimread[39m[34m(fname, format)[39m
-    [32m   1511[39m img_open = (
-    [32m   1512[39m     PIL.PngImagePlugin.PngImageFile [38;5;28;01mif[39;00m ext == [33m'[39m[33mpng[39m[33m'[39m [38;5;28;01melse[39;00m PIL.Image.open)
-    [32m   1513[39m [38;5;28;01mif[39;00m [38;5;28misinstance[39m(fname, [38;5;28mstr[39m) [38;5;129;01mand[39;00m [38;5;28mlen[39m(parse.urlparse(fname).scheme) > [32m1[39m:
-    [32m   1514[39m     [38;5;66;03m# Pillow doesn't handle URLs directly.[39;00m
-    [32m-> [39m[32m1515[39m     [38;5;28;01mraise[39;00m [38;5;167;01mValueError[39;00m(
-    [32m   1516[39m         [33m"[39m[33mPlease open the URL for reading and pass the [39m[33m"[39m
-    [32m   1517[39m         [33m"[39m[33mresult to Pillow, e.g. with [39m[33m"[39m
-    [32m   1518[39m         [33m"[39m[33m``np.array(PIL.Image.open(urllib.request.urlopen(url)))``.[39m[33m"[39m
-    [32m   1519[39m         )
-    [32m   1520[39m [38;5;28;01mwith[39;00m img_open(fname) [38;5;28;01mas[39;00m image:
-    [32m   1521[39m     [38;5;28;01mreturn[39;00m (_pil_png_to_float_array(image)
-    [32m   1522[39m             [38;5;28;01mif[39;00m [38;5;28misinstance[39m(image, PIL.PngImagePlugin.PngImageFile) [38;5;28;01melse[39;00m
-    [32m   1523[39m             pil_to_array(image))
-
-    [31mValueError[39m: Please open the URL for reading and pass the result to Pillow, e.g. with ``np.array(PIL.Image.open(urllib.request.urlopen(url)))``.
-
-![](index_files/figure-commonmark/cell-7-output-2.png)
+![](index_files/figure-commonmark/cell-7-output-1.png)
 
 ``` python
 houston.plot_shots(date_range=((2020,1,3), (2020,1,11)))
@@ -191,7 +147,7 @@ portland_20191125.list_game_ids(2019,11,25)
 
 |       | game_id      | winner   | loser   |
 |-------|--------------|----------|---------|
-| 45560 | 201911250CHI | Portland | Chicago |
+| 46637 | 201911250CHI | Portland | Chicago |
 
 </div>
 
