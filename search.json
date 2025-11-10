@@ -1,0 +1,187 @@
+[
+  {
+    "objectID": "core.html",
+    "href": "core.html",
+    "title": "shot_chart",
+    "section": "",
+    "text": "source",
+    "crumbs": [
+      "shot_chart"
+    ]
+  },
+  {
+    "objectID": "core.html#downloading",
+    "href": "core.html#downloading",
+    "title": "shot_chart",
+    "section": "Downloading",
+    "text": "Downloading\n\nsource\n\ndownload_url\n\n download_url (url, dest, overwrite=False, pbar=None, show_progress=True,\n               chunk_size=1048576, timeout=4, retries=5)\n\nDownload url to dest unless it exists and not overwrite\n\nsource\n\n\ndownload_data\n\n download_data (url, fname=None, c_key='archive', force_download=False)\n\nDownload url to fname.\n\n\nExtract\n\nsource\n\n\nfile_extract\n\n file_extract (fname, dest='.')\n\nExtract fname to dest using tarfile or `zipfile\nfile_extract is used by default in untar_data to decompress the downloaded file.\n\nURLs.path(URLs.SHOTS_2024)\n\nPath('/Users/ccalderon/.shot_chart/archive/shots-2024.tgz')\n\n\n\nsource\n\n\nuntar_data\n\n untar_data (url, fname=None, dest=None, c_key='data',\n             force_download=False, extract_func=&lt;function file_extract&gt;)\n\nDownload url to fname if dest doesn’t exist, and un-tgz to folder dest.\n\nsource\n\n\nmake_df\n\n make_df (path)\n\nCreates a pandas dataframe from path\n\nshots_2021 = make_df(untar_data(URLs.SHOTS_2021))\n\n\n\nUsing the delegate function from https://www.fast.ai/2019/08/06/delegation/\n\nsource\n\n\ndelegates\n\n delegates (to=None, keep=False)\n\nDecorator: replace **kwargs in signature with params from to",
+    "crumbs": [
+      "shot_chart"
+    ]
+  },
+  {
+    "objectID": "core.html#creating-a-class---shots",
+    "href": "core.html#creating-a-class---shots",
+    "title": "shot_chart",
+    "section": "Creating a class - Shots",
+    "text": "Creating a class - Shots\n\nsource\n\nShots\n\n Shots (dataframe)\n\nPlots shot chart and most/least effective shots using plot_shots and plot_effective\n\nshots = Shots(shots_2021)\n\n\nshots.players\n\n0                 Grayson Allen\n1         Giannis Antetokounmpo\n3                   Nic Claxton\n6                  James Harden\n7                   Brook Lopez\n                  ...          \n203149         Gabriel Lundberg\n212992                Gabe York\n214228               Feron Hunt\n215071                Matt Ryan\n216187         Arnoldas Kulboka\nName: shots_by, Length: 596, dtype: object\n\n\n\nshots.plot_shots()\n\n\n\n\n\n\n\n\n\nshots.plot_shots(date_range=((2021,11,1), (2021,11,18)))\n\n\n\n\n\n\n\n\n\nshots.plot_shots(date_range=((2021,12,17), (2021,12,18)))\n\n\n\n\n\n\n\n\n\nshots.list_game_ids(2021, 11, 17)\n\n\n\n\n\n\n\n\ngame_id\nwinner\nloser\n\n\n\n\n29106\n202111170POR\nPortland\nChicago\n\n\n33398\n202111170PHO\nPhoenix\nDallas\n\n\n33582\n202111170OKC\nOklahoma City\nHouston\n\n\n33764\n202111170NYK\nOrlando\nNew York\n\n\n33948\n202111170MIN\nMinnesota\nSacramento\n\n\n34121\n202111170MIL\nMilwaukee\nLA Lakers\n\n\n34304\n202111170MIA\nMiami\nNew Orleans\n\n\n34463\n202111170DET\nDetroit\nIndiana\n\n\n34621\n202111170CHO\nCharlotte\nWashington\n\n\n34807\n202111170BRK\nBrooklyn\nCleveland\n\n\n34979\n202111170ATL\nAtlanta\nBoston\n\n\n\n\n\n\n\n\nshots.plot_shots(date_range=\"202111170PHO\")\n\n\n\n\n\n\n\n\n\nshots.plot_effective(most_or_least=\"most\", metric=\"efg\")\n\n\n\n\n\n\n\n\n\nshots.plot_effective(most_or_least=\"most\", metric=\"efg\", exclude=['0ft','1ft','2ft','23ft'])\n\n\n\n\n\n\n\n\n\nshots.plot_effective(most_or_least=\"most\", min_shots=\"auto\",exclude=['1ft','2ft','23ft','24ft','25ft','26ft','27ft'])\n\n\n\n\n\n\n\n\n\nshots.plot_effective(most_or_least=\"least\", min_shots='auto',exclude=['24ft','23ft'])",
+    "crumbs": [
+      "shot_chart"
+    ]
+  },
+  {
+    "objectID": "core.html#list-teams",
+    "href": "core.html#list-teams",
+    "title": "shot_chart",
+    "section": "List teams",
+    "text": "List teams\n\nsource\n\nlist_teams\n\n list_teams (dataframe)\n\nLists all the teams in dataframe\n\nprint(list_teams(shots_2021))\n\n0          Milwaukee\n3           Brooklyn\n189         Oklahoma\n190             Utah\n371            Miami\n551       Washington\n552          Indiana\n742           Dallas\n743          Toronto\n917       Sacramento\n918     Golden State\n1100         Chicago\n1264          Denver\n1608         Atlanta\n1796         Orlando\n1967     LA Clippers\n1968        Portland\n2153     New Orleans\n2330       Charlotte\n2511       LA Lakers\n2512       Cleveland\n3009         Detroit\n3011    Philadelphia\n3171         Houston\n3351         Memphis\n3538     San Antonio\n3716        New York\n4063         Phoenix\n4788       Minnesota\n5321          Boston\nName: team, dtype: object",
+    "crumbs": [
+      "shot_chart"
+    ]
+  },
+  {
+    "objectID": "core.html#list-unique-game-ids",
+    "href": "core.html#list-unique-game-ids",
+    "title": "shot_chart",
+    "section": "List unique game ids",
+    "text": "List unique game ids\n\nsource\n\nlist_game_ids\n\n list_game_ids (dataframe, year, month, day)\n\nLists unique game ids in dataframe for a given date\n\nlist_game_ids(shots_2021,2021,11,17)\n\n\n\n\n\n\n\n\ngame_id\nwinner\nloser\n\n\n\n\n29106\n202111170POR\nPortland\nChicago\n\n\n33398\n202111170PHO\nPhoenix\nDallas\n\n\n33582\n202111170OKC\nOklahoma City\nHouston\n\n\n33764\n202111170NYK\nOrlando\nNew York\n\n\n33948\n202111170MIN\nMinnesota\nSacramento\n\n\n34121\n202111170MIL\nMilwaukee\nLA Lakers\n\n\n34304\n202111170MIA\nMiami\nNew Orleans\n\n\n34463\n202111170DET\nDetroit\nIndiana\n\n\n34621\n202111170CHO\nCharlotte\nWashington\n\n\n34807\n202111170BRK\nBrooklyn\nCleveland\n\n\n34979\n202111170ATL\nAtlanta\nBoston",
+    "crumbs": [
+      "shot_chart"
+    ]
+  },
+  {
+    "objectID": "core.html#inheriting-from-shots-to-create-teamshots",
+    "href": "core.html#inheriting-from-shots-to-create-teamshots",
+    "title": "shot_chart",
+    "section": "Inheriting from Shots to create TeamShots",
+    "text": "Inheriting from Shots to create TeamShots\n\nsource\n\nTeamShots\n\n TeamShots (dataframe, team)\n\nTeam shots\n\nteam_shots = TeamShots(shots_2021,\"Portland\")\n\n\nteam_shots.team\n\n'Portland'\n\n\n\nteam_shots.plot_shots()\n\n\n\n\n\n\n\n\n\nteam_shots.plot_effective()\n\n\n\n\n\n\n\n\n\nteam_shots.dataframe.loc[(team_shots.dataframe['distance']=='24ft') & (team_shots.dataframe['attempt']=='2-pointer')]\n\n\n\n\n\n\n\n\nUnnamed: 0\ngame_id\nyear\nmonth\nday\nwinner\nloser\nx\ny\nplay\ntime_remaining\nquarter\nshots_by\noutcome\nattempt\ndistance\nteam\nwinner_score\nloser_score\n\n\n\n\n103047\n102971\n202201130DEN\n2022\n1\n13\nDenver\nPortland\n268px\n256px\n4th quarter, 3:41.0 remaining&lt;br&gt;Tony Snell ma...\n3:41.0\n4\nTony Snell\nmade\n2-pointer\n24ft\nPortland\n128\n99\n\n\n185595\n185678\n202203280POR\n2022\n3\n28\nOklahoma City\nPortland\n261px\n312px\n1st quarter, 7:36.0 remaining&lt;br&gt;Keon Johnson ...\n7:36.0\n1\nKeon Johnson\nmissed\n2-pointer\n24ft\nPortland\n11\n12\n\n\n\n\n\n\n\n\nteam_shots.plot_effective(most_or_least=\"least\")\n\n\n\n\n\n\n\n\n\nteam_shots = TeamShots(shots_2021,\"Houston\")\n\n\nteam_shots.plot_shots()\n\n\n\n\n\n\n\n\n\nteam_shots.plot_shots(date_range=((2021,12,3), (2021,12,8)))\n\n\n\n\n\n\n\n\n\nteam_shots.plot_effective(\"least\")\n\n\n\n\n\n\n\n\n\nteam_shots = TeamShots(shots_2021,\"LA Lakers\")\nteam_shots.plot_shots()",
+    "crumbs": [
+      "shot_chart"
+    ]
+  },
+  {
+    "objectID": "core.html#list-players-who-took-shots-for-a-team",
+    "href": "core.html#list-players-who-took-shots-for-a-team",
+    "title": "shot_chart",
+    "section": "List players who took shots for a team",
+    "text": "List players who took shots for a team\n\nsource\n\nlist_team_players\n\n list_team_players (dataframe, team)\n\nLists the players in dataframe who took shots for a team\n\nlist_team_players(shots_2021,'LA Lakers')\n\n\n\n\n\n\n\n\nshots_by\ncount\n\n\n\n\n18\nRussell Westbrook\n1233\n\n\n13\nLeBron James\n1221\n\n\n15\nMalik Monk\n824\n\n\n3\nCarmelo Anthony\n723\n\n\n0\nAnthony Davis\n695\n\n\n21\nTalen Horton-Tucker\n537\n\n\n2\nAvery Bradley\n349\n\n\n1\nAustin Reaves\n315\n\n\n20\nStanley Johnson\n251\n\n\n23\nWayne Ellington\n237\n\n\n8\nDwight Howard\n219\n\n\n12\nKent Bazemore\n136\n\n\n22\nTrevor Ariza\n99\n\n\n24\nWenyen Gabriel\n97\n\n\n7\nDeAndre Jordan\n89\n\n\n5\nD.J. Augustin\n86\n\n\n17\nRajon Rondo\n71\n\n\n9\nIsaiah Thomas\n39\n\n\n16\nMason Jones\n15\n\n\n19\nSekou Doumbouya\n8\n\n\n6\nDarren Collison\n7\n\n\n4\nChaundee Brown\n7\n\n\n14\nMac McClung\n5\n\n\n11\nJemerrio Jones\n3\n\n\n10\nJay Huff\n3",
+    "crumbs": [
+      "shot_chart"
+    ]
+  },
+  {
+    "objectID": "core.html#inheriting-from-shots-to-create-playershots",
+    "href": "core.html#inheriting-from-shots-to-create-playershots",
+    "title": "shot_chart",
+    "section": "Inheriting from Shots to create PlayerShots",
+    "text": "Inheriting from Shots to create PlayerShots\n\nsource\n\nPlayerShots\n\n PlayerShots (dataframe, player)\n\nPlayer shots\n\nplayer_shots = PlayerShots(shots_2021,\"Kevin Durant\")\n\n\nplayer_shots.fg_pct\n\n0.52\n\n\n\nplayer_shots.efg_pct\n\n0.57\n\n\n\nplayer_shots.plot_shots()\n\n\n\n\n\n\n\n\n\nplayer_shots = PlayerShots(shots_2021,\"Russell Westbrook\")\n\n\nplayer_shots.plot_shots(distance_limit=(16,26),attempt=\"2-pointer\")\n\n\n\n\n\n\n\n\n\nplayer_shots.plot_effective(metric=\"efg\", exclude=['0ft','22ft',\"1ft\"])\n\n\n\n\n\n\n\n\n\nplayer_shots.plot_effective(metric=\"efg\", min_shots=\"auto\",exclude=['2ft'])\n\n\n\n\n\n\n\n\n\nplayer_shots = PlayerShots(shots_2021,\"James Harden\")\n\n\nplayer_shots.plot_effective(metric=\"efg\", exclude=['16ft',\"0ft\",\"11ft\",'1ft'])\n\n\n\n\n\n\n\n\n\nplayer_shots.plot_effective(min_shots=\"auto\",exclude=['1ft','28ft','2ft','3ft'])\n\n\n\n\n\n\n\n\n\nplayer_shots = PlayerShots(shots_2021, 'Paul George')\n\n\nplayer_shots.list_game_ids(2021,11,16)\n\n\n\n\n\n\n\n\ngame_id\nwinner\nloser\n\n\n\n\n35143\n202111160LAC\nLA Clippers\nSan Antonio\n\n\n\n\n\n\n\n\nplayer_shots.plot_shots()\n\n\n\n\n\n\n\n\n\nplayer_shots.plot_effective()\n\n\n\n\n\n\n\n\n\nplayer_shots.plot_shots(date_range='202111160LAC')",
+    "crumbs": [
+      "shot_chart"
+    ]
+  },
+  {
+    "objectID": "CONTRIBUTING.html",
+    "href": "CONTRIBUTING.html",
+    "title": "How to contribute",
+    "section": "",
+    "text": "Before anything else, please install the git hooks that run automatic scripts during each commit and merge to strip the notebooks of superfluous metadata (and avoid merge conflicts). After cloning the repository, run the following command inside it:\nnbdev_install_git_hooks\n\n\n\n\nEnsure the bug was not already reported by searching on GitHub under Issues.\nIf you’re unable to find an open issue addressing the problem, open a new one. Be sure to include a title and clear description, as much relevant information as possible, and a code sample or an executable test case demonstrating the expected behavior that is not occurring.\nBe sure to add the complete error messages.\n\n\n\n\nOpen a new GitHub pull request with the patch.\nEnsure that your PR includes a test that fails without your patch, and pass with it.\nEnsure the PR description clearly describes the problem and solution. Include the relevant issue number if applicable.\n\n\n\n\n\n\nKeep each PR focused. While it’s more convenient, do not combine several unrelated fixes together. Create as many branches as needing to keep each PR focused.\nDo not mix style changes/fixes with “functional” changes. It’s very difficult to review such PRs and it most likely get rejected.\nDo not add/remove vertical whitespace. Preserve the original style of the file you edit as much as you can.\nDo not turn an already submitted PR into your development playground. If after you submitted PR, you discovered that more work is needed - close the PR, do the required work and then submit a new PR. Otherwise each of your commits requires attention from maintainers of the project.\nIf, however, you submitted a PR and received a request for changes, you should proceed with commits inside that PR, so that the maintainer can see the incremental fixes and won’t need to review the whole PR again. In the exception case where you realize it’ll take many many commits to complete the requests, then it’s probably best to close the PR, do the work and then submit it again. Use common sense where you’d choose one way over another.\n\n\n\n\n\nDocs are automatically created from the notebooks in the nbs folder."
+  },
+  {
+    "objectID": "CONTRIBUTING.html#how-to-get-started",
+    "href": "CONTRIBUTING.html#how-to-get-started",
+    "title": "How to contribute",
+    "section": "",
+    "text": "Before anything else, please install the git hooks that run automatic scripts during each commit and merge to strip the notebooks of superfluous metadata (and avoid merge conflicts). After cloning the repository, run the following command inside it:\nnbdev_install_git_hooks"
+  },
+  {
+    "objectID": "CONTRIBUTING.html#did-you-find-a-bug",
+    "href": "CONTRIBUTING.html#did-you-find-a-bug",
+    "title": "How to contribute",
+    "section": "",
+    "text": "Ensure the bug was not already reported by searching on GitHub under Issues.\nIf you’re unable to find an open issue addressing the problem, open a new one. Be sure to include a title and clear description, as much relevant information as possible, and a code sample or an executable test case demonstrating the expected behavior that is not occurring.\nBe sure to add the complete error messages.\n\n\n\n\nOpen a new GitHub pull request with the patch.\nEnsure that your PR includes a test that fails without your patch, and pass with it.\nEnsure the PR description clearly describes the problem and solution. Include the relevant issue number if applicable."
+  },
+  {
+    "objectID": "CONTRIBUTING.html#pr-submission-guidelines",
+    "href": "CONTRIBUTING.html#pr-submission-guidelines",
+    "title": "How to contribute",
+    "section": "",
+    "text": "Keep each PR focused. While it’s more convenient, do not combine several unrelated fixes together. Create as many branches as needing to keep each PR focused.\nDo not mix style changes/fixes with “functional” changes. It’s very difficult to review such PRs and it most likely get rejected.\nDo not add/remove vertical whitespace. Preserve the original style of the file you edit as much as you can.\nDo not turn an already submitted PR into your development playground. If after you submitted PR, you discovered that more work is needed - close the PR, do the required work and then submit a new PR. Otherwise each of your commits requires attention from maintainers of the project.\nIf, however, you submitted a PR and received a request for changes, you should proceed with commits inside that PR, so that the maintainer can see the incremental fixes and won’t need to review the whole PR again. In the exception case where you realize it’ll take many many commits to complete the requests, then it’s probably best to close the PR, do the work and then submit it again. Use common sense where you’d choose one way over another."
+  },
+  {
+    "objectID": "CONTRIBUTING.html#do-you-want-to-contribute-to-the-documentation",
+    "href": "CONTRIBUTING.html#do-you-want-to-contribute-to-the-documentation",
+    "title": "How to contribute",
+    "section": "",
+    "text": "Docs are automatically created from the notebooks in the nbs folder."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Shot Chart",
+    "section": "",
+    "text": "#hide\nfrom shot_chart.core import *\nThis file will become your README and also the index of your documentation.",
+    "crumbs": [
+      "Shot Chart"
+    ]
+  },
+  {
+    "objectID": "index.html#install",
+    "href": "index.html#install",
+    "title": "Shot Chart",
+    "section": "Install",
+    "text": "Install\npip install shot_chart",
+    "crumbs": [
+      "Shot Chart"
+    ]
+  },
+  {
+    "objectID": "index.html#how-to-use",
+    "href": "index.html#how-to-use",
+    "title": "Shot Chart",
+    "section": "How to use",
+    "text": "How to use\nWe first create a pandas dataframe from the source data.\n\nshots_2019 = make_df(untar_data(URLs.SHOTS_2019))",
+    "crumbs": [
+      "Shot Chart"
+    ]
+  },
+  {
+    "objectID": "index.html#listing-teams-for-the-season",
+    "href": "index.html#listing-teams-for-the-season",
+    "title": "Shot Chart",
+    "section": "Listing teams for the season",
+    "text": "Listing teams for the season\n\nlist_teams(shots_2019)\n\n0        New Orleans\n2            Toronto\n203        LA Lakers\n204      LA Clippers\n369          Houston\n371       Washington\n563             Utah\n724          Detroit\n896        Charlotte\n897       Sacramento\n1076       Minnesota\n1077    Philadelphia\n1248        New York\n1250         Orlando\n1418        Oklahoma\n1419        Portland\n1587         Phoenix\n1588    Golden State\n2117          Dallas\n2307         Memphis\n2309         Chicago\n2649          Denver\n3000        Brooklyn\n3874       Milwaukee\n4562     San Antonio\n5436         Indiana\n5606          Boston\n5951         Atlanta\n6863           Miami\n6864       Cleveland\nName: team, dtype: object",
+    "crumbs": [
+      "Shot Chart"
+    ]
+  },
+  {
+    "objectID": "index.html#listing-players-who-took-at-least-1-shot-for-a-particular-team",
+    "href": "index.html#listing-players-who-took-at-least-1-shot-for-a-particular-team",
+    "title": "Shot Chart",
+    "section": "Listing players who took at least 1 shot for a particular team",
+    "text": "Listing players who took at least 1 shot for a particular team\n\nlist_team_players(shots_2019, 'Portland')\n\n\n\n\n\n\n\n\nshots_by\ncount\n\n\n\n\n2\nCJ McCollum\n1356\n\n\n5\nDamian Lillard\n1344\n\n\n4\nCarmelo Anthony\n781\n\n\n7\nHassan Whiteside\n702\n\n\n0\nAnfernee Simons\n532\n\n\n6\nGary Trent\n440\n\n\n10\nKent Bazemore\n322\n\n\n11\nMario Hezonja\n217\n\n\n14\nRodney Hood\n172\n\n\n16\nTrevor Ariza\n159\n\n\n13\nNassir Little\n151\n\n\n15\nSkal Labissière\n147\n\n\n1\nAnthony Tolliver\n117\n\n\n9\nJusuf Nurkić\n109\n\n\n18\nZach Collins\n68\n\n\n3\nCaleb Swanigan\n43\n\n\n8\nJaylen Hoard\n32\n\n\n17\nWenyen Gabriel\n31\n\n\n12\nMoses Brown\n10",
+    "crumbs": [
+      "Shot Chart"
+    ]
+  },
+  {
+    "objectID": "index.html#plotting-team-shot-distribution",
+    "href": "index.html#plotting-team-shot-distribution",
+    "title": "Shot Chart",
+    "section": "Plotting team shot distribution",
+    "text": "Plotting team shot distribution\n\nhouston = TeamShots(shots_2019,\"Houston\")\n\n\nhouston.plot_shots()\n\n\n\n\n\n\n\n\n\nhouston.plot_shots(date_range=((2020,1,3), (2020,1,11)))\n\n\n\n\n\n\n\n\nPlease check the extra options when using the plotting functions\n\nportland_20191125 = TeamShots(shots_2019,\"Portland\")\n\n\nportland_20191125.list_game_ids(2019,11,25)\n\n\n\n\n\n\n\n\ngame_id\nwinner\nloser\n\n\n\n\n46637\n201911250CHI\nPortland\nChicago\n\n\n\n\n\n\n\n\nportland_20191125.plot_shots(\"201911250CHI\")",
+    "crumbs": [
+      "Shot Chart"
+    ]
+  },
+  {
+    "objectID": "index.html#plotting-player-shot-distribution",
+    "href": "index.html#plotting-player-shot-distribution",
+    "title": "Shot Chart",
+    "section": "Plotting player shot distribution",
+    "text": "Plotting player shot distribution\n\nplayer_shots = PlayerShots(shots_2019,\"Anthony Davis\")\n\n\nplayer_shots.plot_shots()\n\n\n\n\n\n\n\n\n\ndlo = PlayerShots(shots_2019,\"D'Angelo Russell\")\n\n\ndlo.plot_shots()\n\n\n\n\n\n\n\n\n\ndlo.plot_shots(distance_limit=(16,26),attempt=\"2-pointer\")\n\n\n\n\n\n\n\n\n\ndlo.plot_effective(most_or_least=\"most\")\n\n\n\n\n\n\n\n\n\ndlo.plot_effective(most_or_least=\"most\",exclude=[\"0ft\"])\n\n\n\n\n\n\n\n\n\ndlo.plot_effective(most_or_least=\"most\",min_shots=\"auto\",exclude=['2ft'])\n\n\n\n\n\n\n\n\n\ndlo.plot_effective(most_or_least=\"least\")\n\n\n\n\n\n\n\n\n\ndlo.plot_effective(most_or_least=\"least\",min_shots=\"auto\")",
+    "crumbs": [
+      "Shot Chart"
+    ]
+  }
+]
