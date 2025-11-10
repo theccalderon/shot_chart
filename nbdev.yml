@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "shot_chart"
+  site-url: "https://theccalderon.github.io/shot_chart/"
+  description: "plotting shot charts from basketball-reference.com"
+  repo-branch: master
+  repo-url: "https://github.com/theccalderon/shot_chart/tree/master/"
